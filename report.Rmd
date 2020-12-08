@@ -55,7 +55,7 @@ purrr::map(.x = siglas_mmp, download_df)
 
 ### Get status code - THIS TAKES SOME TIME
 
-```{r}
+```{r eval=FALSE, include=TRUE}
 get_status_code <-
   function(file,
            write_path = "data/df_minutes/status_code") {
@@ -93,7 +93,7 @@ get_status_code <-
 
 
 
-```{r}
+```{r eval=FALSE, include=TRUE}
 path_raw <- "data/df_minutes/raw"
 
 files_get_status <- list.files(path_raw, full.names = TRUE)
@@ -139,19 +139,47 @@ dataset <- readr::read_rds("data/dataset_df_minutes-2020-12-08.Rds")
 dplyr::glimpse(dataset)
 ```
 
-## Download files/minutes
+## Prepare to Download files/minutes
 
 
 ```{r}
-dataset_formato <- dataset   %>%
+dataset_formatado <- dataset   %>%
   dplyr::mutate(
     formato_link = dplyr::case_when(
       is.na(url_link) ~ "Ata não disponibilizada",
       TRUE ~ stringr::str_extract(url_link, pattern = "(.doc|.docx|.pdf|.html|.htm|.jpg|.pd)$|drive.google")
-    ) )
+    )
+  ) %>%
+  dplyr::left_join(ComitesBaciaSP::comites_sp) %>%
+  dplyr::select(-numero_municipios,-macrometropole_daee,-bacia_hidrografica)
 
 
-dataset_formato %>% dplyr::count(formato_link)
+dataset_formatado %>% dplyr::count(formato_link)
+
 ```
 
+# Filter dataset to download
+```{r}
+dataset_download <- dataset_formatado %>%
+    dplyr::filter(link_ata_status == 200,
+                  !is.na(link_ata_status)
+                  ) %>%
+      dplyr::mutate(
+        nome_arquivo = fs::path_file(url_link),
+        nome_arquivo_salvar =
+          glue::glue("data/minutes_files/{sigla_comite}/{data_reuniao}-{numero_link}-{nome_arquivo}"),
+        path = fs::path_dir(nome_arquivo_salvar)
+      ) %>% 
+  dplyr::distinct(n_ugrhi, data_reuniao, url_link, .keep_all = TRUE)
+```
+
+
+
+# Download all the files in dataset_download
+
+```{r eval=FALSE, include=TRUE}
+source("R/download_files.R", encoding = "UTF-8")
+download_files(dataset_download)
+length(list.files("data/minutes_files/", recursive = TRUE))
+```
 

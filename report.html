@@ -437,7 +437,7 @@ siglas_mmp &lt;- comites_mmp %&gt;% dplyr::pull(sigla_comite)</code></pre>
 </div>
 <div id="scrape-and-download-the-df-with-the-comitte-plenuns-information" class="section level2">
 <h2>Scrape and download the df with the comitte plenuns information</h2>
-<pre class="r"><code>download_df &lt;- function(sigla_comite, path = &quot;data/df_minutes&quot;) {
+<pre class="r"><code>download_df &lt;- function(sigla_comite, path = &quot;data/df_minutes/raw&quot;) {
   
   file_name &lt;-
     here::here(path,
@@ -453,11 +453,66 @@ siglas_mmp &lt;- comites_mmp %&gt;% dplyr::pull(sigla_comite)</code></pre>
 }
 
 purrr::map(.x = siglas_mmp, download_df)</code></pre>
+<div id="get-status-code---this-takes-some-time" class="section level3">
+<h3>Get status code - THIS TAKES SOME TIME</h3>
+<pre class="r"><code>get_status_code &lt;-
+  function(file,
+           write_path = &quot;data/df_minutes/status_code&quot;) {
+
+    file_read &lt;- file
+    
+    fs::dir_create(write_path)
+    
+    
+
+    
+    file_save &lt;- here::here(write_path, fs::path_file(file))
+    
+
+    if(!file.exists(file_save)){
+     readr::read_rds(file_read) %&gt;%
+      dplyr::mutate(link_ata_status = purrr::map_dbl(
+        url_link,
+        purrr::possibly(~ httr::status_code(httr::GET(.x)), otherwise = NA)
+      )) %&gt;%
+      saveRDS(file = file_save)
+ 
+    
+    
+    print(glue::glue(&quot;Arquivo baixado: {file_save}&quot;)) 
+    } else {
+    print(glue::glue(&quot;Arquivo não baixado pois já existe: {file_save}&quot;))   
+    }
+    
+    
+  }</code></pre>
+<pre class="r"><code>path_raw &lt;- &quot;data/df_minutes/raw&quot;
+
+files_get_status &lt;- list.files(path_raw, full.names = TRUE)
+
+get_status_code(files_get_status[1])
+beepr::beep(1)
+get_status_code(files_get_status[2])
+beepr::beep(1)
+get_status_code(files_get_status[3])
+beepr::beep(1)
+get_status_code(files_get_status[4])
+beepr::beep(1)
+get_status_code(files_get_status[5])
+beepr::beep(1)
+get_status_code(files_get_status[6])
+beepr::beep(1)
+get_status_code(files_get_status[7])
+beepr::beep(1)
+get_status_code(files_get_status[8])
+beepr::beep(1)
+beepr::beep(2)</code></pre>
+</div>
 <div id="read-all-files-into-a-single-dataframe" class="section level3">
 <h3>Read all files into a single dataframe</h3>
-<pre class="r"><code>path &lt;- &quot;data/df_minutes&quot;
+<pre class="r"><code>path &lt;- &quot;data/df_minutes/status_code&quot;
 
-dataset &lt;- list.files(path, full.names = TRUE) %&gt;% 
+dataset &lt;- list.files(path, full.names = TRUE) %&gt;%
   purrr::map_dfr(.f = readr::read_rds)
 
 readr::write_rds(dataset,
@@ -468,7 +523,7 @@ readr::write_rds(dataset,
 <pre class="r"><code>dataset &lt;- readr::read_rds(&quot;data/dataset_df_minutes-2020-12-08.Rds&quot;)
 dplyr::glimpse(dataset)</code></pre>
 <pre><code>## Rows: 930
-## Columns: 9
+## Columns: 10
 ## $ data_coleta_dados &lt;date&gt; 2020-12-08, 2020-12-08, 2020-12-08, 2020-12-08, ...
 ## $ site_coleta       &lt;glue&gt; &quot;http://www.sigrh.sp.gov.br/cbhat/atas&quot;, &quot;http:/...
 ## $ comite            &lt;chr&gt; &quot;Alto Tietê&quot;, &quot;Alto Tietê&quot;, &quot;Alto Tietê&quot;, &quot;Alto T...
@@ -477,19 +532,54 @@ dplyr::glimpse(dataset)</code></pre>
 ## $ data_reuniao      &lt;date&gt; 2020-02-20, 2019-12-17, 2019-09-25, 2019-07-24, ...
 ## $ data_postagem     &lt;date&gt; 2020-07-29, 2020-02-21, 2019-10-01, 2019-08-13, ...
 ## $ numero_link       &lt;chr&gt; &quot;ata_1&quot;, &quot;ata_1&quot;, &quot;ata_1&quot;, &quot;ata_1&quot;, &quot;ata_1&quot;, &quot;ata...
-## $ url_link          &lt;chr&gt; &quot;http://www.sigrh.sp.gov.br/public/uploads/record...</code></pre>
+## $ url_link          &lt;chr&gt; &quot;http://www.sigrh.sp.gov.br/public/uploads/record...
+## $ link_ata_status   &lt;dbl&gt; 200, 200, 200, 200, 200, 200, 200, 200, 200, 200,...</code></pre>
 </div>
 </div>
-<div id="download-filesminutes" class="section level2">
-<h2>Download files/minutes</h2>
-<pre class="r"><code>dataset   %&gt;%
-     dplyr::mutate(
-       formato_link = dplyr::case_when(
-         is.na(url_link) ~ &quot;Ata não disponibilizada&quot;,
-         TRUE ~ stringr::str_extract(url_link, pattern = &quot;(.doc|.docx|.pdf|.html|.htm|.jpg|.pd)$|drive.google&quot;)
-       )
-     ) %&gt;% 
-  View()</code></pre>
+<div id="prepare-to-download-filesminutes" class="section level2">
+<h2>Prepare to Download files/minutes</h2>
+<pre class="r"><code>dataset_formatado &lt;- dataset   %&gt;%
+  dplyr::mutate(
+    formato_link = dplyr::case_when(
+      is.na(url_link) ~ &quot;Ata não disponibilizada&quot;,
+      TRUE ~ stringr::str_extract(url_link, pattern = &quot;(.doc|.docx|.pdf|.html|.htm|.jpg|.pd)$|drive.google&quot;)
+    )
+  ) %&gt;%
+  dplyr::left_join(ComitesBaciaSP::comites_sp) %&gt;%
+  dplyr::select(-numero_municipios,-macrometropole_daee,-bacia_hidrografica)</code></pre>
+<pre><code>## Joining, by = &quot;n_ugrhi&quot;</code></pre>
+<pre class="r"><code>dataset_formatado %&gt;% dplyr::count(formato_link)</code></pre>
+<pre><code>## # A tibble: 8 x 2
+##   formato_link                n
+##   &lt;chr&gt;                   &lt;int&gt;
+## 1 .doc                      241
+## 2 .docx                      27
+## 3 .htm                      127
+## 4 .html                      35
+## 5 .jpg                      126
+## 6 .pd                         1
+## 7 .pdf                      372
+## 8 Ata não disponibilizada     1</code></pre>
+</div>
+<div id="filter-dataset-to-download" class="section level1">
+<h1>Filter dataset to download</h1>
+<pre class="r"><code>dataset_download &lt;- dataset_formatado %&gt;%
+    dplyr::filter(link_ata_status == 200,
+                  !is.na(link_ata_status)
+                  ) %&gt;%
+      dplyr::mutate(
+        nome_arquivo = fs::path_file(url_link),
+        nome_arquivo_salvar =
+          glue::glue(&quot;data/minutes_files/{sigla_comite}/{data_reuniao}-{numero_link}-{nome_arquivo}&quot;),
+        path = fs::path_dir(nome_arquivo_salvar)
+      ) %&gt;% 
+  dplyr::distinct(n_ugrhi, data_reuniao, url_link, .keep_all = TRUE)</code></pre>
+</div>
+<div id="download-all-the-files-in-dataset_download" class="section level1">
+<h1>Download all the files in dataset_download</h1>
+<pre class="r"><code>source(&quot;R/download_files.R&quot;, encoding = &quot;UTF-8&quot;)
+download_files(dataset_download)
+length(list.files(&quot;data/minutes_files/&quot;, recursive = TRUE))</code></pre>
 </div>
 
 
