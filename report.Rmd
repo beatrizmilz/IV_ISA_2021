@@ -34,7 +34,7 @@ siglas_mmp <- comites_mmp %>% dplyr::pull(sigla_comite)
 ## Scrape and download the df with the comitte plenuns information
 
 ```{r eval=FALSE, include=TRUE}
-download_df <- function(sigla_comite, path = "data/df_minutes") {
+download_df <- function(sigla_comite, path = "data/df_minutes/raw") {
   
   file_name <-
     here::here(path,
@@ -53,12 +53,79 @@ purrr::map(.x = siglas_mmp, download_df)
 
 ```
 
+### Get status code - THIS TAKES SOME TIME
+
+```{r}
+get_status_code <-
+  function(file,
+           write_path = "data/df_minutes/status_code") {
+
+    file_read <- file
+    
+    fs::dir_create(write_path)
+    
+    
+
+    
+    file_save <- here::here(write_path, fs::path_file(file))
+    
+
+    if(!file.exists(file_save)){
+     readr::read_rds(file_read) %>%
+      dplyr::mutate(link_ata_status = purrr::map_dbl(
+        url_link,
+        purrr::possibly(~ httr::status_code(httr::GET(.x)), otherwise = NA)
+      )) %>%
+      saveRDS(file = file_save)
+ 
+    
+    
+    print(glue::glue("Arquivo baixado: {file_save}")) 
+    } else {
+    print(glue::glue("Arquivo não baixado pois já existe: {file_save}"))   
+    }
+    
+    
+  }
+
+
+```
+
+
+
+```{r}
+path_raw <- "data/df_minutes/raw"
+
+files_get_status <- list.files(path_raw, full.names = TRUE)
+
+get_status_code(files_get_status[1])
+beepr::beep(1)
+get_status_code(files_get_status[2])
+beepr::beep(1)
+get_status_code(files_get_status[3])
+beepr::beep(1)
+get_status_code(files_get_status[4])
+beepr::beep(1)
+get_status_code(files_get_status[5])
+beepr::beep(1)
+get_status_code(files_get_status[6])
+beepr::beep(1)
+get_status_code(files_get_status[7])
+beepr::beep(1)
+get_status_code(files_get_status[8])
+beepr::beep(1)
+beepr::beep(2)
+
+```
+
+
+
 ### Read all files into a single dataframe
 
 ```{r eval=FALSE, include=TRUE}
-path <- "data/df_minutes"
+path <- "data/df_minutes/status_code"
 
-dataset <- list.files(path, full.names = TRUE) %>% 
+dataset <- list.files(path, full.names = TRUE) %>%
   purrr::map_dfr(.f = readr::read_rds)
 
 readr::write_rds(dataset,
@@ -76,14 +143,15 @@ dplyr::glimpse(dataset)
 
 
 ```{r}
-dataset   %>%
-     dplyr::mutate(
-       formato_link = dplyr::case_when(
-         is.na(url_link) ~ "Ata não disponibilizada",
-         TRUE ~ stringr::str_extract(url_link, pattern = "(.doc|.docx|.pdf|.html|.htm|.jpg|.pd)$|drive.google")
-       )
-     ) %>% 
-  View()
+dataset_formato <- dataset   %>%
+  dplyr::mutate(
+    formato_link = dplyr::case_when(
+      is.na(url_link) ~ "Ata não disponibilizada",
+      TRUE ~ stringr::str_extract(url_link, pattern = "(.doc|.docx|.pdf|.html|.htm|.jpg|.pd)$|drive.google")
+    ) )
+
+
+dataset_formato %>% dplyr::count(formato_link)
 ```
 
 
