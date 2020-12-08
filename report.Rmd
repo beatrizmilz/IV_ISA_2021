@@ -1,0 +1,89 @@
+---
+title: "Report - IV ISA 2021"
+author: "Beatriz Milz"
+date: "08/12/2020"
+output: html_document
+---
+## Preparing the dataset
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+###  Load packages
+
+```{r}
+library(magrittr)
+```
+
+```{r}
+# install.packages("devtools")
+# devtools::install_github("beatrizmilz/ComitesBaciaSP")
+library(ComitesBaciaSP)
+```
+
+### Create a df with only the committes that are part of the MMP
+
+```{r}
+comites_mmp <- ComitesBaciaSP::comites_sp %>% 
+ dplyr::filter(macrometropole_daee == TRUE) 
+
+siglas_mmp <- comites_mmp %>% dplyr::pull(sigla_comite)
+```
+
+
+## Scrape and download the df with the comitte plenuns information
+
+```{r eval=FALSE, include=TRUE}
+download_df <- function(sigla_comite, path = "data/df_minutes") {
+  
+  file_name <-
+    here::here(path,
+               glue::glue("{sigla_comite}-{Sys.Date()}.Rds"))
+  
+  fs::dir_create(path)
+  
+  
+  ComitesBaciaSP::obter_tabela_atas_comites(sigla_comite) %>%
+    readr::write_rds(file = file_name)
+  
+  print(glue::glue("Arquivo baixado: {file_name}"))
+}
+
+purrr::map(.x = siglas_mmp, download_df)
+
+```
+
+### Read all files into a single dataframe
+
+```{r eval=FALSE, include=TRUE}
+path <- "data/df_minutes"
+
+dataset <- list.files(path, full.names = TRUE) %>% 
+  purrr::map_dfr(.f = readr::read_rds)
+
+readr::write_rds(dataset,
+                 glue::glue("data/dataset_df_minutes-{Sys.Date()}.Rds"))
+```
+
+### Explore the dataset
+
+```{r}
+dataset <- readr::read_rds("data/dataset_df_minutes-2020-12-08.Rds")
+dplyr::glimpse(dataset)
+```
+
+## Download files/minutes
+
+
+```{r}
+dataset   %>%
+     dplyr::mutate(
+       formato_link = dplyr::case_when(
+         is.na(url_link) ~ "Ata não disponibilizada",
+         TRUE ~ stringr::str_extract(url_link, pattern = "(.doc|.docx|.pdf|.html|.htm|.jpg|.pd)$|drive.google")
+       )
+     ) %>% 
+  View()
+```
+
+
