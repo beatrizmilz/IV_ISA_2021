@@ -535,9 +535,8 @@ dplyr::glimpse(dataset)</code></pre>
 ## $ url_link          &lt;chr&gt; &quot;http://www.sigrh.sp.gov.br/public/uploads/record...
 ## $ link_ata_status   &lt;dbl&gt; 200, 200, 200, 200, 200, 200, 200, 200, 200, 200,...</code></pre>
 </div>
-</div>
-<div id="prepare-to-download-filesminutes" class="section level2">
-<h2>Prepare to Download files/minutes</h2>
+<div id="prepare-to-download-filesminutes" class="section level3">
+<h3>Prepare to Download files/minutes</h3>
 <pre class="r"><code>dataset_formatado &lt;- dataset   %&gt;%
   dplyr::mutate(
     formato_link = dplyr::case_when(
@@ -561,8 +560,8 @@ dplyr::glimpse(dataset)</code></pre>
 ## 7 .pdf                      372
 ## 8 Ata não disponibilizada     1</code></pre>
 </div>
-<div id="filter-dataset-to-download" class="section level1">
-<h1>Filter dataset to download</h1>
+<div id="filter-dataset-to-download" class="section level3">
+<h3>Filter dataset to download</h3>
 <pre class="r"><code>dataset_download &lt;- dataset_formatado %&gt;%
     dplyr::filter(link_ata_status == 200,
                   !is.na(link_ata_status)
@@ -573,13 +572,16 @@ dplyr::glimpse(dataset)</code></pre>
           glue::glue(&quot;data/minutes_files/{sigla_comite}/{data_reuniao}-{numero_link}-{nome_arquivo}&quot;),
         path = fs::path_dir(nome_arquivo_salvar)
       ) %&gt;% 
-  dplyr::distinct(n_ugrhi, data_reuniao, url_link, .keep_all = TRUE)</code></pre>
+  dplyr::distinct(n_ugrhi, data_reuniao, url_link, .keep_all = TRUE)
+
+readr::write_rds(dataset_download, file = glue::glue(&quot;data/dataset_df_minutes_download_{Sys.Date()}.Rds&quot;))</code></pre>
 </div>
-<div id="download-all-the-files-in-dataset_download" class="section level1">
-<h1>Download all the files in dataset_download</h1>
+<div id="download-all-the-files-in-dataset_download" class="section level3">
+<h3>Download all the files in dataset_download</h3>
 <pre class="r"><code>source(&quot;R/download_files.R&quot;, encoding = &quot;UTF-8&quot;)
 download_files(dataset_download)
 length(list.files(&quot;data/minutes_files/&quot;, recursive = TRUE))</code></pre>
+</div>
 </div>
 
 

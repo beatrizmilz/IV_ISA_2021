@@ -1,0 +1,15 @@
+---
+title: "Create a dataset with downloaded files"
+author: "Beatriz Milz"
+date: "08/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+dataset_download <- readr::read_rds("data/dataset_df_minutes_download_2020-12-08.Rds")
+```
+

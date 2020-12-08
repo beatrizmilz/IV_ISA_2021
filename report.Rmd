@@ -30,6 +30,23 @@ comites_mmp <- ComitesBaciaSP::comites_sp %>%
 siglas_mmp <- comites_mmp %>% dplyr::pull(sigla_comite)
 ```
 
+## Download HTML pages (important to have a backup)
+```{r}
+url_comites <- comites_mmp %>% 
+  dplyr::mutate(url = glue::glue("http://www.sigrh.sp.gov.br/cbh{sigla_comite}/atas"))
+
+for (i in 1:length(url_comites)){
+  
+  url <- url_comites %>% dplyr::slice(i)  %>% dplyr::pull(url) 
+  sigla_comite <- url_comites %>% dplyr::slice(i)  %>% dplyr::pull(sigla_comite) 
+  
+    httr::GET(url, httr::write_disk(path = glue::glue("data/html/{sigla_comite}-{Sys.Date()}.html")))
+  
+}
+
+```
+
+
 
 ## Scrape and download the df with the comitte plenuns information
 
@@ -139,7 +156,7 @@ dataset <- readr::read_rds("data/dataset_df_minutes-2020-12-08.Rds")
 dplyr::glimpse(dataset)
 ```
 
-## Prepare to Download files/minutes
+### Prepare to Download files/minutes
 
 
 ```{r}
@@ -158,7 +175,7 @@ dataset_formatado %>% dplyr::count(formato_link)
 
 ```
 
-# Filter dataset to download
+### Filter dataset to download
 ```{r}
 dataset_download <- dataset_formatado %>%
     dplyr::filter(link_ata_status == 200,
@@ -171,15 +188,16 @@ dataset_download <- dataset_formatado %>%
         path = fs::path_dir(nome_arquivo_salvar)
       ) %>% 
   dplyr::distinct(n_ugrhi, data_reuniao, url_link, .keep_all = TRUE)
+
+readr::write_rds(dataset_download, file = glue::glue("data/dataset_df_minutes_download_{Sys.Date()}.Rds"))
 ```
 
 
 
-# Download all the files in dataset_download
+### Download all the files in dataset_download
 
 ```{r eval=FALSE, include=TRUE}
 source("R/download_files.R", encoding = "UTF-8")
 download_files(dataset_download)
 length(list.files("data/minutes_files/", recursive = TRUE))
 ```
-
