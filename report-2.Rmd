@@ -7,9 +7,147 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(magrittr)
 ```
 
 ```{r}
 dataset_download <- readr::read_rds("data/dataset_df_minutes_download_2020-12-08.Rds")
 ```
 
+## doc
+Erro: System call to 'antiword' failed (1): Word2: fast saved documents are not supported yet
+
+
+```{r}
+
+extensions <- dataset_download %>% 
+    dplyr::filter(!formato_link %in% c(".jpg")) %>% 
+  dplyr::distinct(formato_link) %>%
+  dplyr::pull(formato_link) %>% 
+  stringr::str_remove_all("\\.")
+
+
+read_different_file_extensions <- function(ext){
+
+
+# htm nao ta funcionando muito bem, mas o html está!
+  
+  reading_files <- list.files(
+  path = "data/minutes_files",
+  recursive =
+    TRUE,
+  full.names = TRUE,
+  pattern = glue::glue(".{ext}$")
+) %>%
+  readtext::readtext()
+
+readr::write_rds(reading_files, file = glue::glue( "data/reading_downloaded_files/reading_{ext}_{Sys.Date()}.rds"))
+
+reading_files
+
+}
+
+read_different_file_extensions(".doc")
+```
+
+
+```{r}
+read_htm_file_extensions <- function(){
+  
+ htm_files <- list.files(
+  path = "data/minutes_files",
+  recursive =
+    TRUE,
+  full.names = TRUE,
+  pattern = glue::glue(".htm$")
+)
+ 
+ dataset_html <-  tibble::tibble(doc_id = as.character(), text = as.character())
+ 
+ for (i in 1:length(htm_files)) {
+   doc_id_i <- htm_files[i] %>% fs::path_file()
+   
+   text_i <- htm_files[i] %>%
+     purrr::map(xml2::read_html) %>%
+     purrr::map(~ rvest::html_nodes(.x, 'p,h1,h2,h3')) %>%
+     purrr::map(~ rvest::html_text(.x) %>%
+                  stringr::str_squish()) %>%
+     unlist() %>%
+     paste0(collapse = " ")
+   
+    dataset_html <- dataset_html %>% tibble::add_row(doc_id = doc_id_i, text = text_i)
+   
+  
+ }
+ 
+readr::write_rds(dataset_html, file = glue::glue( "data/reading_downloaded_files/reading_htm_{Sys.Date()}.rds"))
+
+dataset_html
+ 
+}
+
+```
+
+
+
+```{r}
+# Abrir vários tipos, exceto JPG, htm, doc
+purrr::map(.x = extensions, .f = purrr::possibly(read_different_file_extensions, otherwise = "ERRO"))
+
+# Abrir htm
+
+read_htm_file_extensions() 
+```
+
+```{r}
+loaded_files <- list.files("data/reading_downloaded_files/", full.names = TRUE) %>% 
+  purrr::map_dfr(readr::read_rds) 
+
+
+united_loaded_files <- loaded_files %>% dplyr::full_join(dataset_download, by = c("doc_id" = "nome_arquivo_curto"))
+
+
+# united_clean_text <- united_loaded_files %>%
+#   dplyr::mutate(
+#     texto = stringr::str_squish(text))
+#   )
+
+  
+  
+# Os arquivos .JPG não foram carregados. tentei abrir com tesseract, não funciona bem.
+
+# Os arquivos .doc não foram carregados. descobrir uma forma!
+united_loaded_files %>% dplyr::filter(formato_link == ".pdf") %>%
+  dplyr::arrange(data_reuniao) %>% 
+  View()
+
+
+united_loaded_files %>% dplyr::filter(formato_link == ".doc") %>%
+  dplyr::count(comite)
+  dplyr::arrange(data_reuniao) %>% 
+  View()
+
+
+pdf_files <- list.files(
+  path = "data/minutes_files",
+  recursive =
+    TRUE,
+  full.names = TRUE,
+  pattern = glue::glue(".pdf$")
+)
+
+pdftools::pdf_info(pdf_files[1]) %>% tibble::as_tibble()
+pdftools::pdf_info(pdf_files[2]) %>% tibble::as_tibble()
+pdftools::pdf_info(pdf_files[3]) %>% tibble::as_tibble()
+```
+
+
+Dúvida: 
+
+- Como evitar ler documentos repetidos?
+
+- Como separar PDFs digitalizados e PDFs criados digitalmente?
+
+ideias:
+- ideias para analise: antes, durante, depois da crise hidrica.

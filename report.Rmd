@@ -184,7 +184,8 @@ dataset_download <- dataset_formatado %>%
       dplyr::mutate(
         nome_arquivo = fs::path_file(url_link),
         nome_arquivo_salvar =
-          glue::glue("data/minutes_files/{sigla_comite}/{data_reuniao}-{numero_link}-{nome_arquivo}"),
+          glue::glue("data/minutes_files/{sigla_comite}/{sigla_comite}-{data_reuniao}-{numero_link}-{nome_arquivo}"),
+        nome_arquivo_curto = glue::glue("{sigla_comite}-{data_reuniao}-{numero_link}-{nome_arquivo}"),
         path = fs::path_dir(nome_arquivo_salvar)
       ) %>% 
   dplyr::distinct(n_ugrhi, data_reuniao, url_link, .keep_all = TRUE)
