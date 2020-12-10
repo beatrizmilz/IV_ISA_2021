@@ -22,7 +22,7 @@ Erro: System call to 'antiword' failed (1): Word2: fast saved documents are not 
 ```{r}
 
 extensions <- dataset_download %>% 
-    dplyr::filter(!formato_link %in% c(".jpg")) %>% 
+    dplyr::filter(!formato_link %in% c(".jpg", ".htm", ".doc")) %>% 
   dplyr::distinct(formato_link) %>%
   dplyr::pull(formato_link) %>% 
   stringr::str_remove_all("\\.")
@@ -48,7 +48,7 @@ reading_files
 
 }
 
-read_different_file_extensions(".doc")
+#read_different_file_extensions(".doc")
 ```
 
 
@@ -90,6 +90,54 @@ dataset_html
 ```
 
 
+```{r}
+read_doc_file_extensions <- function() {
+  doc_files <- list.files(
+    path = "data/minutes_files",
+    recursive =
+      TRUE,
+    full.names = TRUE,
+    pattern = glue::glue(".doc$")
+  )
+  
+  dataset_doc <-
+    tibble::tibble(doc_id = as.character(), text = as.character())
+  
+  for (i in 1:length(doc_files)) {
+ 
+    doc_id_i <- doc_files[i] %>% fs::path_file()
+    
+    
+    text_anti <-
+      purrr::possibly(antiword::antiword, otherwise = "Erro Antiword")
+    
+    text_i <- text_anti(doc_files[i]) %>% 
+      stringr::str_squish() %>%
+      unlist() %>%
+      paste0(collapse = " ")
+    
+  
+    dataset_doc <-
+      dataset_doc %>% tibble::add_row(doc_id = doc_id_i, text = text_i)
+    
+    paste0(glue::glue("Index baixado: {i}"))
+    
+  }
+  
+  readr::write_rds(
+    dataset_doc,
+    file = glue::glue(
+      "data/reading_downloaded_files/reading_doc_{Sys.Date()}.rds"
+    )
+  )
+  
+  dataset_doc
+  
+}
+
+
+```
+
 
 ```{r}
 # Abrir vários tipos, exceto JPG, htm, doc
@@ -98,6 +146,8 @@ purrr::map(.x = extensions, .f = purrr::possibly(read_different_file_extensions,
 # Abrir htm
 
 read_htm_file_extensions() 
+read_doc_file_extensions() 
+
 ```
 
 ```{r}
@@ -151,3 +201,7 @@ Dúvida:
 
 ideias:
 - ideias para analise: antes, durante, depois da crise hidrica.
+
+
+
+
