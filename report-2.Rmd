@@ -165,9 +165,9 @@ united_loaded_files <- loaded_files %>% dplyr::full_join(dataset_download, by = 
 
   
   
-# Os arquivos .JPG não foram carregados. tentei abrir com tesseract, não funciona bem.
 
-# Os arquivos .doc não foram carregados. descobrir uma forma!
+
+
 united_loaded_files %>% dplyr::filter(formato_link == ".pdf") %>%
   dplyr::arrange(data_reuniao) %>% 
   View()
@@ -199,8 +199,12 @@ Dúvida:
 
 - Como separar PDFs digitalizados e PDFs criados digitalmente?
 
+- Os arquivos .JPG não foram carregados. tentei abrir com tesseract, não funciona bem para arquivos escritos a mão.
+
 ideias:
 - ideias para analise: antes, durante, depois da crise hidrica.
+
+
 
 
 
