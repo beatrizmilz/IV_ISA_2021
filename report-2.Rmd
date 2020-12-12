@@ -215,8 +215,17 @@ united_clean_text <- united_loaded_files %>%
 ```{r}
 #verificando repetidos, quase 100, para nao duplicar reuniao no corpus
 
-dataset_download %>%
-  dplyr::filter(numero_link != "ata_1", formato_link != ".jpg") %>%
+
+
+
+
+# Remover câmara técnica
+dataset_download %>% 
+  dplyr::filter(!stringr::str_detect(nome_reuniao, "Câmara Técnica|Grupo Técnico|CTPLAGRHI")) %>% 
+  dplyr::filter(numero_link != "ata_1", 
+                formato_link != ".jpg", 
+                n_ugrhi == 9
+                ) %>%
   dplyr::arrange(comite, data_reuniao) %>% 
   dplyr::filter(
     !nome_arquivo_salvar %in% c(
@@ -240,11 +249,43 @@ dataset_download %>%
       "data/minutes_files/ln/ln-2008-06-16-ata_2-ata-plenaria-16-06-08.doc",
       "data/minutes_files/mogi/mogi-1996-06-04-ata_12-doc1-0.pdf",
       "data/minutes_files/mogi/mogi-1996-08-15-ata_6-doc2-0.pdf",
-      "data/minutes_files/mogi/mogi-1996-08-28-ata_2-doc1.pdf"
+      "data/minutes_files/mogi/mogi-1996-08-28-ata_2-doc1.pdf",
+      
+      
+      "data/minutes_files/pcj/pcj-2001-03-30-ata_2-15-ord-cbh-pcj_30-03-01.pdf",
+      
+      "data/minutes_files/smt/smt-2004-05-28-ata_4-anexo-2.doc",
+      "data/minutes_files/smt/smt-2004-05-28-ata_5-anexo-3.doc",
+      "data/minutes_files/smt/smt-2006-11-10-ata_2-minuta-36a-1.doc",
+      "data/minutes_files/smt/smt-2008-10-07-ata_2-minuta-da-ata-da-43-reuniao-extraordinaria-do-cbh.doc",
+      "data/minutes_files/smt/smt-2009-11-06-ata_2-lista-reuniao-mairinque.pdf",
+      "data/minutes_files/rb/rb-1996-05-18-ata_2-cbhata00296.pdf",
+      "data/minutes_files/rb/rb-1997-06-07-ata_2-cbhata00797.pdf",
+      "data/minutes_files/rb/rb-1997-09-13-ata_2-cbhata00997.pdf",
+      "data/minutes_files/rb/rb-2000-05-19-ata_2-cbhata02600.pdf",
+      "data/minutes_files/rb/rb-2004-05-08-ata_2-cbhata04204.pdf",
+      "data/minutes_files/rb/rb-2004-08-14-ata_2-cbhata04304.pdf",
+      "data/minutes_files/rb/rb-2004-11-05-ata_2-cbhata04404.pdf",
+      "data/minutes_files/rb/rb-2004-12-18-ata_2-cbhextra1404.pdf",
+      "data/minutes_files/rb/rb-2005-03-04-ata_2-cbhata04505.pdf",
+      "data/minutes_files/rb/rb-2005-06-25-ata_2-cbhata04605.pdf",
+      "data/minutes_files/rb/rb-2005-08-27-ata_2-cbhata04705.pdf",
+      "data/minutes_files/rb/rb-2005-12-09-ata_2-cbhata04805.pdf",
+      "data/minutes_files/rb/rb-2008-09-12-ata_2-cbhextra1708.pdf",
+      "data/minutes_files/rb/rb-2008-11-29-ata_2-cbhata05708.pdf",
+      "data/minutes_files/rb/rb-2008-12-17-ata_2-cbhextra1808.pdf",
+      
+      "data/minutes_files/mogi/mogi-1996-08-15-ata_7-doc2.pdf"
+      
+      
+      
     )
   )
 
-# OK: AT, BS, LN,
+# OK: AT, BS, LN, PCJ, SMT, RB
+# FALTA: MOGI 9, 
+
+
 ```
 
 
