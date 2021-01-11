@@ -1,0 +1,305 @@
+---
+title: "Create a dataset with downloaded files"
+author: "Beatriz Milz"
+date: "08/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+```{r}
+
+library(magrittr)
+dataset_download <- readr::read_rds("data/dataset_df_minutes_download_2020-12-08.Rds")
+```
+
+
+
+```{r}
+# Verifiquei que as imagens disponibilizadas continham informações duplicadas. REMOVER TODAS.
+
+# Remover: imagens, e reuniões de câmaras técnicas
+dataset_sem_CT_e_imagens <- dataset_download %>%   
+  dplyr::filter(formato_link != ".jpg") %>% 
+dplyr::filter(
+  !stringr::str_detect(
+    nome_reuniao,
+    "Câmara Técnica|Grupo Técnico|CTPLAGRHI| CT |CT-| GT|GTI|GT-|CÂMARA TÉCNICA|UGP|CTSAN"
+  )
+) 
+
+
+dataset_datas_alteradas <- dataset_sem_CT_e_imagens %>%
+  dplyr::mutate(data_reuniao = dplyr::case_when(
+    nome_arquivo == "ata-3-reuniao-extraordinaria.doc" & comite == "Baixada Santista" ~ lubridate::as_date("2013-12-10"),
+    
+        nome_arquivo == "ata-da-2-reuniao-extraordinaria.docx" & comite == "Baixada Santista" ~ lubridate::as_date("2013-10-15"),
+    
+        nome_arquivo == "ata-plenaria-06-10-2006.doc" & comite == "Litoral Norte" ~ lubridate::as_date("2006-10-06"),   
+    
+            nome_arquivo == "ata-reuniao-19-de-maio-revisada.doc" & comite == "Litoral Norte" ~ lubridate::as_date("2006-05-19"),   
+    
+            nome_arquivo == "7-ext_comitespcj_16-12-11.pdf" & comite == "Piracicaba / Capivari / Jundiaí" ~ lubridate::as_date("2011-12-16"),       
+            nome_arquivo == "cbhata04805.htm" & comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2005-10-14"),    
+    
+                nome_arquivo == "cbhata066_11.pdf" & comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2011-02-25"),    
+    
+                    nome_arquivo == "cbhata070_12.doc" & comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2012-04-13"),  
+    
+                        nome_arquivo == "cbhata069_12.doc" & comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2012-02-15"),  
+    
+    
+    
+    TRUE ~ data_reuniao
+  ))
+
+View(dataset_datas_alteradas)
+
+# inconsistencias nas datas de reunião em baixada santista,  litoral norte, ribeira do iguape
+```
+
+REMOVER AINDA: ATAS RESUMIDAS, 2 REUNIOES NA MESMA DATA
+
+```{r}
+#verificando repetidos, quase 100, para nao duplicar reuniao no corpus
+
+dataset_sem_duplicatas <- dataset_datas_alteradas %>%
+  
+  dplyr::arrange(comite, data_reuniao) %>%
+  dplyr::filter(
+    !nome_arquivo_salvar %in% c(
+      # Anexos só com nomes, não tem texto
+      "data/minutes_files/at/at-2013-08-30-ata_1-anexo-a-ata-de-30-08-2013-convidados",
+      "data/minutes_files/at/at-2013-08-30-ata_2-anexo-a-ata-de-30-08-2013-estado.pdf",
+      "data/minutes_files/at/at-2013-08-30-ata_3-anexo-a-ata-de-30-08-2013-municipio.pdf",
+      "data/minutes_files/at/at-2013-08-30-ata_4-anexo-a-ata-de-30-08-2013-sociedade-civil.pdf",
+      # Alguns oferecem a ata completa e o resumo executivo, dei preferência para ata completa
+      "data/minutes_files/at/at-2011-03-31-ata_2-resumo-executivo-da-ata-31-03-2011-aprovada.pdf",
+      "data/minutes_files/at/at-2011-02-16-ata_2-resumo-executivo-da-ata-16-02-atualizada-pos-reuniao.pdf",
+      "data/minutes_files/at/at-2011-03-31-ata_2-resumo-executivo-da-ata-31-03-2011-aprovada.doc",
+      "data/minutes_files/at/at-2011-02-16-ata_2-resumo-executivo-da-ata-16-02-atualizada-pos-reuniao.doc",
+      "data/minutes_files/at/at-2007-04-12-ata_2-ata-reuniao-extraordinaria-do-cbh-at_12_04_2007.doc",
+      
+      "data/minutes_files/bs/bs-2020-07-21-ata_2-3-resumo-do-55-reuniao-ordinaria-do-cbh-bs-de-2020-1.docx",
+      "data/minutes_files/bs/bs-2005-05-18-ata_2-ata-da-1-re-extra05-18-05-05.doc",
+      "data/minutes_files/bs/bs-2008-08-12-ata_2-ata-da-3-reuniao-extraordinaria-do-cbh-bs-2008.doc",
+      
+      "data/minutes_files/bs/bs-2019-06-18-ata_2-ata-comunicado.docx",
+      "data/minutes_files/ln/ln-2008-06-16-ata_2-ata-plenaria-16-06-08.doc",
+      
+      "data/minutes_files/ln/ln-1997-11-13-ata_1-ataex0397ln.htm",
+      "data/minutes_files/ln/ln-1997-11-13-ata_1-ataex10397ln.html",
+      
+      
+      
+      "data/minutes_files/pcj/pcj-2001-03-30-ata_2-15-ord-cbh-pcj_30-03-01.pdf",
+      
+      "data/minutes_files/smt/smt-2004-05-28-ata_4-anexo-2.doc",
+      "data/minutes_files/smt/smt-2004-05-28-ata_5-anexo-3.doc",
+      "data/minutes_files/smt/smt-2006-11-10-ata_2-minuta-36a-1.doc",
+      "data/minutes_files/smt/smt-2008-10-07-ata_2-minuta-da-ata-da-43-reuniao-extraordinaria-do-cbh.doc",
+      "data/minutes_files/smt/smt-2009-11-06-ata_2-lista-reuniao-mairinque.pdf",
+      "data/minutes_files/rb/rb-1996-05-18-ata_2-cbhata00296.pdf",
+      "data/minutes_files/rb/rb-1997-06-07-ata_2-cbhata00797.pdf",
+      "data/minutes_files/rb/rb-1997-09-13-ata_2-cbhata00997.pdf",
+      "data/minutes_files/rb/rb-2000-05-19-ata_2-cbhata02600.pdf",
+      "data/minutes_files/rb/rb-2004-05-08-ata_2-cbhata04204.pdf",
+      "data/minutes_files/rb/rb-2004-08-14-ata_2-cbhata04304.pdf",
+      "data/minutes_files/rb/rb-2004-11-05-ata_2-cbhata04404.pdf",
+      "data/minutes_files/rb/rb-2004-12-18-ata_2-cbhextra1404.pdf",
+      "data/minutes_files/rb/rb-2005-03-04-ata_2-cbhata04505.pdf",
+      "data/minutes_files/rb/rb-2005-06-25-ata_2-cbhata04605.pdf",
+      "data/minutes_files/rb/rb-2005-08-27-ata_2-cbhata04705.pdf",
+      "data/minutes_files/rb/rb-2005-12-09-ata_2-cbhata04805.pdf",
+      "data/minutes_files/rb/rb-2008-09-12-ata_2-cbhextra1708.pdf",
+      "data/minutes_files/rb/rb-2008-11-29-ata_2-cbhata05708.pdf",
+      "data/minutes_files/rb/rb-2008-12-17-ata_2-cbhextra1808.pdf",
+      "data/minutes_files/mogi/mogi-1996-08-15-ata_6-doc2-0.pdf",
+      "data/minutes_files/mogi/mogi-1996-06-04-ata_12-doc1-0.pdf",
+      
+      "data/minutes_files/mogi/mogi-1996-08-28-ata_2-doc1.pdf",
+      "data/minutes_files/mogi/mogi-1996-11-29-ata_7-doc3.pdf",
+      "data/minutes_files/mogi/mogi-1997-03-21-ata_12-doc4.pdf",
+      "data/minutes_files/mogi/mogi-1997-06-27-ata_9-doc5.pdf",
+      "data/minutes_files/mogi/mogi-1997-07-12-ata_5-doc6.pdf",
+      "data/minutes_files/mogi/mogi-1997-10-03-ata_2-doc2.pdf",
+      "data/minutes_files/mogi/mogi-1997-12-12-ata_2-doc3.pdf",
+      "data/minutes_files/mogi/mogi-1998-04-03-ata_8-doc7.pdf",
+      "data/minutes_files/mogi/mogi-1998-07-11-ata_2-doc4.pdf",
+      "data/minutes_files/mogi/mogi-1998-08-07-ata_9-doc8.pdf",
+      "data/minutes_files/mogi/mogi-1999-03-26-ata_10-doc9.pdf",
+      "data/minutes_files/mogi/mogi-1999-06-25-ata_2-doc5.pdf",
+      "data/minutes_files/mogi/mogi-1999-08-27-ata_9-doc10.pdf",
+      "data/minutes_files/mogi/mogi-1999-11-26-ata_2-doc6.pdf",
+      "data/minutes_files/mogi/mogi-2000-02-04-ata_9-doc11.pdf",
+      "data/minutes_files/mogi/mogi-2000-03-17-ata_2-doc7.pdf",
+      "data/minutes_files/mogi/mogi-2000-05-05-ata_2-doc8.pdf",
+      "data/minutes_files/mogi/mogi-2000-06-16-ata_2-doc9.pdf",
+      "data/minutes_files/mogi/mogi-2001-03-30-ata_2-doc10.pdf",
+      "data/minutes_files/mogi/mogi-2001-05-25-ata_10-doc12.pdf",
+      "data/minutes_files/mogi/mogi-2001-08-24-ata_16-doc13.pdf",
+      "data/minutes_files/mogi/mogi-2001-11-09-ata_28-doc14.pdf",
+      "data/minutes_files/mogi/mogi-2002-02-01-ata_2-doc15.pdf",
+      "data/minutes_files/mogi/mogi-2002-04-26-ata_2-doc11.pdf",
+      "data/minutes_files/mogi/mogi-2002-07-05-ata_2-doc12.pdf",
+      "data/minutes_files/mogi/mogi-2002-12-06-ata_2-doc13.pdf",
+      "data/minutes_files/mogi/mogi-2003-03-21-ata_2-doc17.pdf",
+      "data/minutes_files/mogi/mogi-2003-04-25-ata_2-doc18.pdf",
+      "data/minutes_files/mogi/mogi-2003-06-13-ata_2-doc19.pdf",
+      "data/minutes_files/mogi/mogi-2003-07-19-ata_2-doc20.pdf",
+      "data/minutes_files/mogi/mogi-2003-11-07-ata_2-doc21.pdf",
+      "data/minutes_files/mogi/mogi-2003-01-31-ata_2-doc16.pdf",
+      "data/minutes_files/mogi/mogi-2006-06-09-ata_2-doc30.pdf",
+      "data/minutes_files/mogi/mogi-2006-12-08-ata_2-doc31.pdf",
+      "data/minutes_files/mogi/mogi-2007-03-16-ata_2-doc32.pdf",
+      "data/minutes_files/mogi/mogi-2007-06-22-ata_2-doc33.pdf",
+      "data/minutes_files/mogi/mogi-2007-12-07-ata_2-doc34.pdf",
+      "data/minutes_files/mogi/mogi-2008-03-14-ata_2-doc35.pdf",
+      "data/minutes_files/mogi/mogi-2019-03-15-ata_2-extrato-ata-69-r-o-scconceicao-15-03-2019.pdf",
+      "data/minutes_files/mogi/mogi-2019-06-28-ata_2-extrato-ata-70-r-o-santa-lucia-28-06-2019.pdf",
+      
+      "data/minutes_files/mogi/mogi-2019-09-27-ata_1-extrato-ata-71-r-o-sjbv-27-09-2019.pdf",
+      
+      "data/minutes_files/mogi/mogi-2020-07-29-ata_1-extrato-da-ata-73-r-o.pdf",
+     
+      
+       "data/minutes_files/at/at-1998-09-29-ata_1-ata_reuniao-extraordinaria-29_9_98-resumida.doc",
+      "data/minutes_files/at/at-1999-11-12-ata_1-1999-11-12.html",
+      "data/minutes_files/at/at-2000-02-04-ata_1-2000-02-04.html",
+      "data/minutes_files/at/at-2000-10-20-ata_1-2000-10-20.html",
+       "data/minutes_files/at/at-2001-02-20-ata_1-2001-02-20.html",
+      "data/minutes_files/at/at-2001-08-30-ata_1-2001-08-30.htm",
+     "data/minutes_files/at/at-2001-11-29-ata_1-2001-11-29.htm",
+     "data/minutes_files/at/at-2001-12-19-ata_1-2001-12-19.htm",
+     "data/minutes_files/at/at-2002-09-17-ata_1-2002-09-17.htm",
+     "data/minutes_files/at/at-2013-08-30-ata_1-anexo-a-ata-de-30-08-2013-convidados.pdf"
+     
+    )
+  ) %>% 
+  
+  dplyr::filter(data_reuniao == "2015-12-09", data_postagem ==  "2016-06-22")
+
+dataset_sem_duplicatas %>% 
+  dplyr::group_by(comite, data_reuniao) %>%
+  dplyr::summarise(n = dplyr::n(), 
+                   atas = knitr::combine_words(nome_arquivo_curto)) %>% 
+  dplyr::filter(n != 1
+               , comite == "Ribeira do Iguape e Litoral Sul"
+                )
+
+#Feitos: AT, LN, PCJ
+
+# FALTA: BS, DANDO MÓ TRABALHO PQ TEM VÁRIAS REUNIOES COM DATA ERRADA
+```
+
+
+```{r}
+extensions <- dataset_download %>% 
+    dplyr::filter(!formato_link %in% c(".jpg", ".htm", ".doc")) %>% 
+  dplyr::distinct(formato_link) %>%
+  dplyr::pull(formato_link) %>% 
+  stringr::str_remove_all("\\.")
+
+```
+
+
+
+```{r}
+source("R/read_file_extensions.R", encoding = "UTF-8")
+
+# Abrir vários tipos, exceto JPG, htm, doc
+purrr::map(.x = extensions, .f = purrr::possibly(read_different_file_extensions, otherwise = "ERRO"))
+
+# Abrir htm
+read_htm_file_extensions() 
+# Abrir doc
+read_doc_file_extensions() 
+
+```
+
+```{r}
+# Quais são os arquivos que deram erro com o antiword?
+arquivos_erro_antiword <-
+  united_clean_text %>% dplyr::filter(text == "Erro Antiword") %>% dplyr::select(nome_arquivo_salvar) %>%
+  dplyr::mutate(
+    nome_arquivo = fs::path_file(nome_arquivo_salvar),
+    novo_arquivo = glue::glue("data/minutes_files/erro_antiword/{nome_arquivo}")
+  )
+
+fs::file_copy(
+  path = arquivos_erro_antiword$nome_arquivo_salvar,
+  new_path = arquivos_erro_antiword$novo_arquivo,
+  overwrite = TRUE
+)
+
+
+## Converti em PDF esses arquivos MANUALMENTE, 
+# para depois obter os dados dos PDFs
+list.files(
+  path = "data/minutes_files/erro_antiword/PDF/",
+  recursive =
+    TRUE,
+  full.names = TRUE,
+  pattern = glue::glue(".pdf$")
+) %>%
+  readtext::readtext() %>%
+  readr::write_rds(
+    file = glue::glue(
+      "data/reading_downloaded_files/reading_pdf_erro_antiword_{Sys.Date()}.rds"
+    )
+  )
+```
+
+
+```{r}
+loaded_files <- list.files("data/reading_downloaded_files/", full.names = TRUE) %>% 
+  purrr::map_dfr(readr::read_rds) 
+
+
+
+united_loaded_files <- loaded_files %>%
+ dplyr::filter(text != "Erro Antiword",
+               doc_id != "at-1994-11-18-ata_1-ata-de-fundacao-e-instalacao-do-cbh-at-doe-18-11-94-caderno-executivo-i-pagina-56.pdf")   %>%
+  dplyr::full_join(dataset_download, by = c("doc_id" = "nome_arquivo_curto"))
+
+
+
+
+
+
+
+united_clean_text <- united_loaded_files %>%
+  dplyr::mutate(
+    texto = stringr::str_replace_all(text, "_", " "),
+    texto = stringr::str_squish(texto)
+    )
+
+# head(united_clean_text$texto)
+
+
+```
+
+
+
+ideias:
+- ideias para analise: antes, durante, depois da crise hidrica.
+
+
+
+Atas que não serão usadas:
+at-1994-11-18-ata_1-ata-de-fundacao-e-instalacao-do-cbh-at-doe-18-11-94-caderno-executivo-i-pagina-56.pdf - PDF esquisito
+
+at-2005-07-06-ata_1-ata-reuniao-extraordinaria-do-cbh-at-06_07_05 - Word corrompido
+
+jpgs smt: anexos de outras instituicoes
+
+jpgs mogi: ata escrita a mão, porém há o PDF também. 
+
+tem atas duplicadas, removendo na mão
+
+tem datas com data errada, arrumando na mão
+
+pcj parece que tem duplicacao,mas na verdade sao duas reunioes no mesmo dia
