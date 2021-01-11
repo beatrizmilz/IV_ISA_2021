@@ -22,39 +22,60 @@ dataset_download <- readr::read_rds("data/dataset_df_minutes_download_2020-12-08
 # Verifiquei que as imagens disponibilizadas continham informações duplicadas. REMOVER TODAS.
 
 # Remover: imagens, e reuniões de câmaras técnicas
-dataset_sem_CT_e_imagens <- dataset_download %>%   
-  dplyr::filter(formato_link != ".jpg") %>% 
-dplyr::filter(
-  !stringr::str_detect(
-    nome_reuniao,
-    "Câmara Técnica|Grupo Técnico|CTPLAGRHI| CT |CT-| GT|GTI|GT-|CÂMARA TÉCNICA|UGP|CTSAN"
+dataset_sem_CT_e_imagens <- dataset_download %>%
+  dplyr::filter(formato_link != ".jpg") %>%
+  dplyr::filter(
+    !stringr::str_detect(
+      nome_reuniao,
+      "Câmara Técnica|Grupo Técnico|CTPLAGRHI| CT |CT-| GT|GTI|GT-|CÂMARA TÉCNICA|UGP|CTSAN"
+    )
   )
-) 
 
 
 dataset_datas_alteradas <- dataset_sem_CT_e_imagens %>%
-  dplyr::mutate(data_reuniao = dplyr::case_when(
-    nome_arquivo == "ata-3-reuniao-extraordinaria.doc" & comite == "Baixada Santista" ~ lubridate::as_date("2013-12-10"),
-    
-        nome_arquivo == "ata-da-2-reuniao-extraordinaria.docx" & comite == "Baixada Santista" ~ lubridate::as_date("2013-10-15"),
-    
-        nome_arquivo == "ata-plenaria-06-10-2006.doc" & comite == "Litoral Norte" ~ lubridate::as_date("2006-10-06"),   
-    
-            nome_arquivo == "ata-reuniao-19-de-maio-revisada.doc" & comite == "Litoral Norte" ~ lubridate::as_date("2006-05-19"),   
-    
-            nome_arquivo == "7-ext_comitespcj_16-12-11.pdf" & comite == "Piracicaba / Capivari / Jundiaí" ~ lubridate::as_date("2011-12-16"),       
-            nome_arquivo == "cbhata04805.htm" & comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2005-10-14"),    
-    
-                nome_arquivo == "cbhata066_11.pdf" & comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2011-02-25"),    
-    
-                    nome_arquivo == "cbhata070_12.doc" & comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2012-04-13"),  
-    
-                        nome_arquivo == "cbhata069_12.doc" & comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2012-02-15"),  
-    
-    
-    
-    TRUE ~ data_reuniao
-  ))
+  dplyr::mutate(
+    data_reuniao = dplyr::case_when(
+      nome_arquivo == "ata-3-reuniao-extraordinaria.doc" &
+        comite == "Baixada Santista" ~ lubridate::as_date("2013-12-10"),
+      
+      nome_arquivo == "ata-da-2-reuniao-extraordinaria.docx" &
+        comite == "Baixada Santista" ~ lubridate::as_date("2013-10-15"),
+      
+      nome_arquivo == "ata-plenaria-06-10-2006.doc" &
+        comite == "Litoral Norte" ~ lubridate::as_date("2006-10-06"),
+      
+      nome_arquivo == "ata-reuniao-19-de-maio-revisada.doc" &
+        comite == "Litoral Norte" ~ lubridate::as_date("2006-05-19"),
+      
+      nome_arquivo == "7-ext_comitespcj_16-12-11.pdf" &
+        comite == "Piracicaba / Capivari / Jundiaí" ~ lubridate::as_date("2011-12-16"),
+      nome_arquivo == "cbhata04805.htm" &
+        comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2005-10-14"),
+      
+      nome_arquivo == "cbhata066_11.pdf" &
+        comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2011-02-25"),
+      
+      nome_arquivo == "cbhata070_12.doc" &
+        comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2012-04-13"),
+      
+      nome_arquivo == "cbhata069_12.doc" &
+        comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2012-02-15"),
+      
+      nome_arquivo == "cbhata094_19.doc" &
+        comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2019-09-27"),
+      
+      nome_arquivo == "cbhata093_19.doc" &
+        comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2019-06-28"),
+      
+      
+      nome_arquivo == "cbhata092_19.doc" &
+        comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2019-03-29"),      
+      
+      
+      
+      TRUE ~ data_reuniao
+    )
+  )
 
 View(dataset_datas_alteradas)
 
@@ -178,9 +199,9 @@ dataset_sem_duplicatas <- dataset_datas_alteradas %>%
      "data/minutes_files/at/at-2013-08-30-ata_1-anexo-a-ata-de-30-08-2013-convidados.pdf"
      
     )
-  ) %>% 
+  )# %>% 
   
-  dplyr::filter(data_reuniao == "2015-12-09", data_postagem ==  "2016-06-22")
+  #dplyr::filter(data_reuniao == "2015-12-09", data_postagem ==  "2016-06-22")
 
 dataset_sem_duplicatas %>% 
   dplyr::group_by(comite, data_reuniao) %>%
