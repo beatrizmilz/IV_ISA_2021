@@ -11,9 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-
 library(magrittr)
-dataset_download <- readr::read_rds("data/dataset_df_minutes_download_2020-12-08.Rds")
+dataset_download <-
+  readr::read_rds("data/dataset_df_minutes_download_2020-12-08.Rds")
 ```
 
 
@@ -69,17 +69,36 @@ dataset_datas_alteradas <- dataset_sem_CT_e_imagens %>%
       
       
       nome_arquivo == "cbhata092_19.doc" &
-        comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2019-03-29"),      
+        comite == "Ribeira do Iguape e Litoral Sul" ~ lubridate::as_date("2019-03-29"),
+      
+      nome_arquivo == "ata-da-9a-reuniao-extraordinaria-cbh-smt.htm" &
+        comite == "Sorocaba e Médio Tietê" ~ lubridate::as_date("1999-05-14"),
+      
+      nome_arquivo == "ata-da-36a-reuniao-extraordinaria_cerquilho.pdf" &
+        comite == "Sorocaba e Médio Tietê" ~ lubridate::as_date("2007-02-09"),
+      
       
       
       
       TRUE ~ data_reuniao
     )
-  )
+  ) %>%
+  dplyr::mutate(
+    remover = dplyr::case_when(
+      data_reuniao == "2015-12-09" &
+        data_postagem ==  "2016-06-22" &
+        comite == "Ribeira do Iguape e Litoral Sul" ~ TRUE,
+      TRUE ~ FALSE
+    )
+    
+    
+  ) %>%
+  dplyr::filter(remover == FALSE) %>%
+  dplyr::select(-remover)
 
 View(dataset_datas_alteradas)
 
-# inconsistencias nas datas de reunião em baixada santista,  litoral norte, ribeira do iguape
+# inconsistencias nas datas de reunião em baixada santista,  litoral norte, ribeira do iguape, SMT
 ```
 
 REMOVER AINDA: ATAS RESUMIDAS, 2 REUNIOES NA MESMA DATA
@@ -185,43 +204,47 @@ dataset_sem_duplicatas <- dataset_datas_alteradas %>%
       "data/minutes_files/mogi/mogi-2019-09-27-ata_1-extrato-ata-71-r-o-sjbv-27-09-2019.pdf",
       
       "data/minutes_files/mogi/mogi-2020-07-29-ata_1-extrato-da-ata-73-r-o.pdf",
-     
       
-       "data/minutes_files/at/at-1998-09-29-ata_1-ata_reuniao-extraordinaria-29_9_98-resumida.doc",
+      
+      "data/minutes_files/at/at-1998-09-29-ata_1-ata_reuniao-extraordinaria-29_9_98-resumida.doc",
       "data/minutes_files/at/at-1999-11-12-ata_1-1999-11-12.html",
       "data/minutes_files/at/at-2000-02-04-ata_1-2000-02-04.html",
       "data/minutes_files/at/at-2000-10-20-ata_1-2000-10-20.html",
-       "data/minutes_files/at/at-2001-02-20-ata_1-2001-02-20.html",
+      "data/minutes_files/at/at-2001-02-20-ata_1-2001-02-20.html",
       "data/minutes_files/at/at-2001-08-30-ata_1-2001-08-30.htm",
-     "data/minutes_files/at/at-2001-11-29-ata_1-2001-11-29.htm",
-     "data/minutes_files/at/at-2001-12-19-ata_1-2001-12-19.htm",
-     "data/minutes_files/at/at-2002-09-17-ata_1-2002-09-17.htm",
-     "data/minutes_files/at/at-2013-08-30-ata_1-anexo-a-ata-de-30-08-2013-convidados.pdf"
-     
+      "data/minutes_files/at/at-2001-11-29-ata_1-2001-11-29.htm",
+      "data/minutes_files/at/at-2001-12-19-ata_1-2001-12-19.htm",
+      "data/minutes_files/at/at-2002-09-17-ata_1-2002-09-17.htm",
+      "data/minutes_files/at/at-2013-08-30-ata_1-anexo-a-ata-de-30-08-2013-convidados.pdf",
+      "data/minutes_files/smt/smt-2005-02-11-ata_1-ata-completa-31a-cerquilho.doc",
+      "data/minutes_files/smt/smt-2005-07-15-ata_1-minuta-da-ata-20a-reuniao-ordinaria-ipero-jul-05.pdf",
+      "data/minutes_files/smt/smt-2005-10-27-ata_1-minuta-33a-smt-porangaba.doc",
+      
+      "data/minutes_files/smt/smt-2005-10-27-ata_1-33a-porangaba.pdf",
+      "data/minutes_files/smt/smt-2008-05-09-ata_1-ata-da-42-reuniao-extraordinaria-votorantim-minuta.pdf",
+      "data/minutes_files/smt/smt-2009-12-11-ata_1-48a-_smt_dezembro_09-1.doc",
+      "data/minutes_files/smt/smt-2018-12-07-ata_1-ata-executiva-53a-cbhsmt-boituva-2018.pdf"
     )
-  )# %>% 
-  
-  #dplyr::filter(data_reuniao == "2015-12-09", data_postagem ==  "2016-06-22")
+  )
 
-dataset_sem_duplicatas %>% 
+dataset_sem_duplicatas %>%
   dplyr::group_by(comite, data_reuniao) %>%
-  dplyr::summarise(n = dplyr::n(), 
-                   atas = knitr::combine_words(nome_arquivo_curto)) %>% 
+  dplyr::summarise(n = dplyr::n(),
+                   atas = knitr::combine_words(nome_arquivo_curto)) %>%
   dplyr::filter(n != 1
-               , comite == "Ribeira do Iguape e Litoral Sul"
-                )
+                , comite == "Piracicaba / Capivari / Jundiaí")
 
-#Feitos: AT, LN, PCJ
+#Feitos: AT, LN, PCJ, RB,mogi, SMT
 
-# FALTA: BS, DANDO MÓ TRABALHO PQ TEM VÁRIAS REUNIOES COM DATA ERRADA
+# FALTA: BS, DANDO MÓ TRABALHO PQ TEM VÁRIAS REUNIOES COM DATA ERRADA,  REVER PCJ
 ```
 
 
 ```{r}
-extensions <- dataset_download %>% 
-    dplyr::filter(!formato_link %in% c(".jpg", ".htm", ".doc")) %>% 
+extensions <- dataset_download %>%
+  dplyr::filter(!formato_link %in% c(".jpg", ".htm", ".doc")) %>%
   dplyr::distinct(formato_link) %>%
-  dplyr::pull(formato_link) %>% 
+  dplyr::pull(formato_link) %>%
   stringr::str_remove_all("\\.")
 
 ```
@@ -232,12 +255,15 @@ extensions <- dataset_download %>%
 source("R/read_file_extensions.R", encoding = "UTF-8")
 
 # Abrir vários tipos, exceto JPG, htm, doc
-purrr::map(.x = extensions, .f = purrr::possibly(read_different_file_extensions, otherwise = "ERRO"))
+purrr::map(
+  .x = extensions,
+  .f = purrr::possibly(read_different_file_extensions, otherwise = "ERRO")
+)
 
 # Abrir htm
-read_htm_file_extensions() 
+read_htm_file_extensions()
 # Abrir doc
-read_doc_file_extensions() 
+read_doc_file_extensions()
 
 ```
 
@@ -257,7 +283,7 @@ fs::file_copy(
 )
 
 
-## Converti em PDF esses arquivos MANUALMENTE, 
+## Converti em PDF esses arquivos MANUALMENTE,
 # para depois obter os dados dos PDFs
 list.files(
   path = "data/minutes_files/erro_antiword/PDF/",
@@ -276,14 +302,17 @@ list.files(
 
 
 ```{r}
-loaded_files <- list.files("data/reading_downloaded_files/", full.names = TRUE) %>% 
-  purrr::map_dfr(readr::read_rds) 
+loaded_files <-
+  list.files("data/reading_downloaded_files/", full.names = TRUE) %>%
+  purrr::map_dfr(readr::read_rds)
 
 
 
 united_loaded_files <- loaded_files %>%
- dplyr::filter(text != "Erro Antiword",
-               doc_id != "at-1994-11-18-ata_1-ata-de-fundacao-e-instalacao-do-cbh-at-doe-18-11-94-caderno-executivo-i-pagina-56.pdf")   %>%
+  dplyr::filter(
+    text != "Erro Antiword",
+    doc_id != "at-1994-11-18-ata_1-ata-de-fundacao-e-instalacao-do-cbh-at-doe-18-11-94-caderno-executivo-i-pagina-56.pdf"
+  )   %>%
   dplyr::full_join(dataset_download, by = c("doc_id" = "nome_arquivo_curto"))
 
 
@@ -296,10 +325,9 @@ united_clean_text <- united_loaded_files %>%
   dplyr::mutate(
     texto = stringr::str_replace_all(text, "_", " "),
     texto = stringr::str_squish(texto)
-    )
+  )
 
 # head(united_clean_text$texto)
-
 
 ```
 
