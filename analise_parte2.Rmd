@@ -1,5 +1,5 @@
 ---
-title: "Create a dataset with downloaded files"
+title: "Removing all the duplicates"
 author: "Beatriz Milz"
 date: "08/12/2020"
 output: html_document
@@ -23,6 +23,8 @@ dataset_download <-
 
 # Remover: imagens, e reuniões de câmaras técnicas
 dataset_sem_CT_e_imagens <- dataset_download %>%
+  
+  
   dplyr::filter(formato_link != ".jpg") %>%
   dplyr::filter(
     !stringr::str_detect(
@@ -41,8 +43,40 @@ dataset_datas_alteradas <- dataset_sem_CT_e_imagens %>%
       nome_arquivo == "ata-da-2-reuniao-extraordinaria.docx" &
         comite == "Baixada Santista" ~ lubridate::as_date("2013-10-15"),
       
+      nome_arquivo == "ata-1-reuniao-extraordinaria-do.doc" &
+        comite == "Baixada Santista" ~ lubridate::as_date("2016-08-04"),
+      
+      
       nome_arquivo == "ata-3-reuniao-ordinaria-2014.doc" &
         comite == "Baixada Santista" ~ lubridate::as_date("2014-12-10"),
+      
+      
+      nome_arquivo == "ata-48-reuniao-ordinaria-2018.docx" &
+        comite == "Baixada Santista" ~ lubridate::as_date("2018-02-22"),
+      
+      
+      
+      nome_arquivo == "ata-1-reuniao-extraordinaria-2018.docx" &
+        comite == "Baixada Santista" ~ lubridate::as_date("2018-04-24"),
+      
+      
+      nome_arquivo == "ata-47-ordinaria-2017.docx" &
+        comite == "Baixada Santista" ~ lubridate::as_date("2017-12-06"),
+      
+      nome_arquivo == "ata-3-extra.docx" &
+        comite == "Baixada Santista" ~ lubridate::as_date("2018-09-04"),
+      
+      
+      nome_arquivo == "ata-executiva-52a-ordinaria-cbh-bsantista-de-22-agosto-2019-marcia-sely.docx" &
+        comite == "Baixada Santista" ~ lubridate::as_date("2019-08-22"),
+      
+      nome_arquivo == "ata-cbhbsantista-51-reuniao-ordinaria-de-2019-bsantista-junho-marcia.docx" &
+        comite == "Baixada Santista" ~ lubridate::as_date("2019-06-18"),
+      
+      
+      nome_arquivo == "ata-cbh-bsantistade-29-de-maio-de-2019-2-reuniao-extraordinaria.docx" &
+        comite == "Baixada Santista" ~ lubridate::as_date("2019-05-29"),
+      
       
       nome_arquivo == "ata-plenaria-06-10-2006.doc" &
         comite == "Litoral Norte" ~ lubridate::as_date("2006-10-06"),
@@ -80,7 +114,7 @@ dataset_datas_alteradas <- dataset_sem_CT_e_imagens %>%
       nome_arquivo == "ata-da-36a-reuniao-extraordinaria_cerquilho.pdf" &
         comite == "Sorocaba e Médio Tietê" ~ lubridate::as_date("2007-02-09"),
       
-            nome_arquivo == "7-ext_comitespcj_16-12-11.pdf" &
+      nome_arquivo == "7-ext_comitespcj_16-12-11.pdf" &
         comite == "Piracicaba / Capivari / Jundiaí" ~ lubridate::as_date("2011-12-16"),
       
       
@@ -92,6 +126,12 @@ dataset_datas_alteradas <- dataset_sem_CT_e_imagens %>%
       data_reuniao == "2015-12-09" &
         data_postagem ==  "2016-06-22" &
         comite == "Ribeira do Iguape e Litoral Sul" ~ TRUE,
+      
+      
+      comite == "Baixada Santista" &
+        url_link == "http://www.sigrh.sp.gov.br/public/uploads/records//CBH-BS/10539/ata-41-reuniao-ordinaria.pdf" ~ TRUE,
+      
+      
       TRUE ~ FALSE
     )
     
@@ -229,114 +269,27 @@ dataset_sem_duplicatas <- dataset_datas_alteradas %>%
       "data/minutes_files/smt/smt-2009-12-11-ata_1-48a-_smt_dezembro_09-1.doc",
       "data/minutes_files/smt/smt-2018-12-07-ata_1-ata-executiva-53a-cbhsmt-boituva-2018.pdf",
       
-      "data/minutes_files/bs/bs-2015-08-28-ata_1-resumida-do.doc"
+      "data/minutes_files/bs/bs-2015-08-28-ata_1-resumida-do.doc",
+      "data/minutes_files/bs/bs-2019-08-12-ata_1-comunicado-ata-52.docx",
+      "data/minutes_files/bs/bs-2019-06-18-ata_2-ata-comunicado.docx",
+      "data/minutes_files/bs/bs-2019-09-12-ata_1-ata-da-53-reuniao-ordinaria-resumo.docx"
     )
   )
 
-dataset_sem_duplicatas %>%
-  dplyr::group_by(comite, data_reuniao) %>%
-  dplyr::summarise(n = dplyr::n(),
-                   atas = knitr::combine_words(nome_arquivo_curto)) %>%
-  dplyr::filter(n != 1
-                , comite == "Baixada Santista"
-                )
-
-#Feitos: AT, LN, PCJ, RB,mogi, SMT
-
-# FALTA: BS, DANDO MÓ TRABALHO PQ TEM VÁRIAS REUNIOES COM DATA ERRADA
-```
 
 
-```{r}
-extensions <- dataset_download %>%
-  dplyr::filter(!formato_link %in% c(".jpg", ".htm", ".doc")) %>%
-  dplyr::distinct(formato_link) %>%
-  dplyr::pull(formato_link) %>%
-  stringr::str_remove_all("\\.")
+# dataset_sem_duplicatas %>%
+#   dplyr::group_by(comite, data_reuniao) %>%
+#   dplyr::summarise(n = dplyr::n(),
+#                    atas = knitr::combine_words(nome_arquivo_curto)) %>%
+#   dplyr::filter(n != 1
+#                 #, comite == "Baixada Santista"
+#                 )
+
+
 
 ```
 
-
-
-```{r}
-source("R/read_file_extensions.R", encoding = "UTF-8")
-
-# Abrir vários tipos, exceto JPG, htm, doc
-purrr::map(
-  .x = extensions,
-  .f = purrr::possibly(read_different_file_extensions, otherwise = "ERRO")
-)
-
-# Abrir htm
-read_htm_file_extensions()
-# Abrir doc
-read_doc_file_extensions()
-
-```
-
-```{r}
-# Quais são os arquivos que deram erro com o antiword?
-arquivos_erro_antiword <-
-  united_clean_text %>% dplyr::filter(text == "Erro Antiword") %>% dplyr::select(nome_arquivo_salvar) %>%
-  dplyr::mutate(
-    nome_arquivo = fs::path_file(nome_arquivo_salvar),
-    novo_arquivo = glue::glue("data/minutes_files/erro_antiword/{nome_arquivo}")
-  )
-
-fs::file_copy(
-  path = arquivos_erro_antiword$nome_arquivo_salvar,
-  new_path = arquivos_erro_antiword$novo_arquivo,
-  overwrite = TRUE
-)
-
-
-## Converti em PDF esses arquivos MANUALMENTE,
-# para depois obter os dados dos PDFs
-list.files(
-  path = "data/minutes_files/erro_antiword/PDF/",
-  recursive =
-    TRUE,
-  full.names = TRUE,
-  pattern = glue::glue(".pdf$")
-) %>%
-  readtext::readtext() %>%
-  readr::write_rds(
-    file = glue::glue(
-      "data/reading_downloaded_files/reading_pdf_erro_antiword_{Sys.Date()}.rds"
-    )
-  )
-```
-
-
-```{r}
-loaded_files <-
-  list.files("data/reading_downloaded_files/", full.names = TRUE) %>%
-  purrr::map_dfr(readr::read_rds)
-
-
-
-united_loaded_files <- loaded_files %>%
-  dplyr::filter(
-    text != "Erro Antiword",
-    doc_id != "at-1994-11-18-ata_1-ata-de-fundacao-e-instalacao-do-cbh-at-doe-18-11-94-caderno-executivo-i-pagina-56.pdf"
-  )   %>%
-  dplyr::full_join(dataset_download, by = c("doc_id" = "nome_arquivo_curto"))
-
-
-
-
-
-
-
-united_clean_text <- united_loaded_files %>%
-  dplyr::mutate(
-    texto = stringr::str_replace_all(text, "_", " "),
-    texto = stringr::str_squish(texto)
-  )
-
-# head(united_clean_text$texto)
-
-```
 
 
 

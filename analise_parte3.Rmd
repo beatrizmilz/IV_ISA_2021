@@ -1,0 +1,103 @@
+---
+title: "Reading the files into a dataset"
+author: "Beatriz Milz"
+date: "13/01/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+extensions <- dataset_download %>%
+  dplyr::filter(!formato_link %in% c(".jpg", ".htm", ".doc")) %>%
+  dplyr::distinct(formato_link) %>%
+  dplyr::pull(formato_link) %>%
+  stringr::str_remove_all("\\.")
+
+```
+
+
+
+```{r}
+source("R/read_file_extensions.R", encoding = "UTF-8")
+
+# Abrir vários tipos, exceto JPG, htm, doc
+purrr::map(
+  .x = extensions,
+  .f = purrr::possibly(read_different_file_extensions, otherwise = "ERRO")
+)
+
+# Abrir htm
+read_htm_file_extensions()
+# Abrir doc
+read_doc_file_extensions()
+
+```
+
+```{r}
+# Quais são os arquivos que deram erro com o antiword?
+arquivos_erro_antiword <-
+  united_clean_text %>% dplyr::filter(text == "Erro Antiword") %>% dplyr::select(nome_arquivo_salvar) %>%
+  dplyr::mutate(
+    nome_arquivo = fs::path_file(nome_arquivo_salvar),
+    novo_arquivo = glue::glue("data/minutes_files/erro_antiword/{nome_arquivo}")
+  )
+
+fs::file_copy(
+  path = arquivos_erro_antiword$nome_arquivo_salvar,
+  new_path = arquivos_erro_antiword$novo_arquivo,
+  overwrite = TRUE
+)
+
+
+## Converti em PDF esses arquivos MANUALMENTE,
+# para depois obter os dados dos PDFs
+list.files(
+  path = "data/minutes_files/erro_antiword/PDF/",
+  recursive =
+    TRUE,
+  full.names = TRUE,
+  pattern = glue::glue(".pdf$")
+) %>%
+  readtext::readtext() %>%
+  readr::write_rds(
+    file = glue::glue(
+      "data/reading_downloaded_files/reading_pdf_erro_antiword_{Sys.Date()}.rds"
+    )
+  )
+```
+
+
+```{r}
+loaded_files <-
+  list.files("data/reading_downloaded_files/", full.names = TRUE) %>%
+  purrr::map_dfr(readr::read_rds)
+
+
+
+united_loaded_files <- loaded_files %>%
+  dplyr::filter(
+    text != "Erro Antiword",
+    doc_id != "at-1994-11-18-ata_1-ata-de-fundacao-e-instalacao-do-cbh-at-doe-18-11-94-caderno-executivo-i-pagina-56.pdf"
+  )   %>%
+  dplyr::full_join(dataset_download, by = c("doc_id" = "nome_arquivo_curto"))
+
+
+
+
+
+
+
+united_clean_text <- united_loaded_files %>%
+  dplyr::mutate(
+    texto = stringr::str_replace_all(text, "_", " "),
+    texto = stringr::str_squish(texto)
+  )
+
+# head(united_clean_text$texto)
+
+```
