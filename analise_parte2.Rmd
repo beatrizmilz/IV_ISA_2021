@@ -41,6 +41,9 @@ dataset_datas_alteradas <- dataset_sem_CT_e_imagens %>%
       nome_arquivo == "ata-da-2-reuniao-extraordinaria.docx" &
         comite == "Baixada Santista" ~ lubridate::as_date("2013-10-15"),
       
+      nome_arquivo == "ata-3-reuniao-ordinaria-2014.doc" &
+        comite == "Baixada Santista" ~ lubridate::as_date("2014-12-10"),
+      
       nome_arquivo == "ata-plenaria-06-10-2006.doc" &
         comite == "Litoral Norte" ~ lubridate::as_date("2006-10-06"),
       
@@ -77,7 +80,8 @@ dataset_datas_alteradas <- dataset_sem_CT_e_imagens %>%
       nome_arquivo == "ata-da-36a-reuniao-extraordinaria_cerquilho.pdf" &
         comite == "Sorocaba e Médio Tietê" ~ lubridate::as_date("2007-02-09"),
       
-      
+            nome_arquivo == "7-ext_comitespcj_16-12-11.pdf" &
+        comite == "Piracicaba / Capivari / Jundiaí" ~ lubridate::as_date("2011-12-16"),
       
       
       TRUE ~ data_reuniao
@@ -223,7 +227,9 @@ dataset_sem_duplicatas <- dataset_datas_alteradas %>%
       "data/minutes_files/smt/smt-2005-10-27-ata_1-33a-porangaba.pdf",
       "data/minutes_files/smt/smt-2008-05-09-ata_1-ata-da-42-reuniao-extraordinaria-votorantim-minuta.pdf",
       "data/minutes_files/smt/smt-2009-12-11-ata_1-48a-_smt_dezembro_09-1.doc",
-      "data/minutes_files/smt/smt-2018-12-07-ata_1-ata-executiva-53a-cbhsmt-boituva-2018.pdf"
+      "data/minutes_files/smt/smt-2018-12-07-ata_1-ata-executiva-53a-cbhsmt-boituva-2018.pdf",
+      
+      "data/minutes_files/bs/bs-2015-08-28-ata_1-resumida-do.doc"
     )
   )
 
@@ -232,11 +238,12 @@ dataset_sem_duplicatas %>%
   dplyr::summarise(n = dplyr::n(),
                    atas = knitr::combine_words(nome_arquivo_curto)) %>%
   dplyr::filter(n != 1
-                , comite == "Piracicaba / Capivari / Jundiaí")
+                , comite == "Baixada Santista"
+                )
 
 #Feitos: AT, LN, PCJ, RB,mogi, SMT
 
-# FALTA: BS, DANDO MÓ TRABALHO PQ TEM VÁRIAS REUNIOES COM DATA ERRADA,  REVER PCJ
+# FALTA: BS, DANDO MÓ TRABALHO PQ TEM VÁRIAS REUNIOES COM DATA ERRADA
 ```
 
 
