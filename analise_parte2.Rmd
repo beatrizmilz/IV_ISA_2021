@@ -142,14 +142,12 @@ dataset_datas_alteradas <- dataset_sem_CT_e_imagens %>%
 
 View(dataset_datas_alteradas)
 
-# inconsistencias nas datas de reunião em baixada santista,  litoral norte, ribeira do iguape, SMT
+# inconsistencias nas datas de reunião em alguns comitês
 ```
 
-REMOVER AINDA: ATAS RESUMIDAS, 2 REUNIOES NA MESMA DATA
+Removido: ATAS RESUMIDAS (quando tinha a versão completa também), 2 REUNIOES NA MESMA DATA
 
 ```{r}
-#verificando repetidos, quase 100, para nao duplicar reuniao no corpus
-
 dataset_sem_duplicatas <- dataset_datas_alteradas %>%
   
   dplyr::arrange(comite, data_reuniao) %>%
@@ -287,9 +285,12 @@ dataset_sem_duplicatas <- dataset_datas_alteradas %>%
 #                 )
 
 
-
 ```
 
+```{r}
+dataset_sem_duplicatas %>% 
+  readr::write_rds(file = "data/dataset_atas.Rds")
+```
 
 
 

@@ -1,0 +1,57 @@
+---
+title: "Untitled"
+author: "bia"
+date: "15/01/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(magrittr)
+library(ggplot2)
+
+dataset_corpus_raw <- readr::read_rds("data/dataset_corpus_raw.Rds")
+```
+
+
+```{r}
+
+united_clean_text <- dataset_corpus_raw %>%
+  dplyr::mutate(
+    texto = stringr::str_replace_all(text, "_", " "),
+    texto = stringr::str_squish(texto)
+  )
+
+
+
+```
+
+
+```{r}
+
+stopwords_br <- stopwords::stopwords(language = "pt") %>% 
+  tibble::as.tibble() %>% 
+  dplyr::rename("word" = value) %>% 
+  tibble::add_row(word = c("é", "ser", "sobre", "reunião", "então", "sr",
+                           "presidente", "cbh", "comitê"))
+
+  
+tokens <- united_clean_text %>% 
+  dplyr::mutate(ano = lubridate::year(data_reuniao)) %>%
+  dplyr::select(comite, ano, texto) %>%
+  tidytext::unnest_tokens(word, texto)
+
+
+tokens %>%
+  dplyr::anti_join(stopwords_br) %>% 
+ # dplyr::group_by(ano, comite) %>% 
+  dplyr::count(word, sort = TRUE)  %>% 
+  dplyr::mutate(word = reorder(word, n)) %>%
+  ggplot(aes(n, word)) +
+  geom_col() +
+  labs(y = NULL)
+```
+

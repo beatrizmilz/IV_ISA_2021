@@ -9,10 +9,20 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(magrittr)
+
+```
 
 
 ```{r}
-extensions <- dataset_download %>%
+all_extensions <- dataset %>%
+  #dplyr::filter(!formato_link %in% c(".jpg", ".htm", ".doc")) %>%
+  dplyr::distinct(formato_link) %>%
+  dplyr::pull(formato_link) %>%
+  stringr::str_remove_all("\\.")
+
+extensions <- dataset %>%
   dplyr::filter(!formato_link %in% c(".jpg", ".htm", ".doc")) %>%
   dplyr::distinct(formato_link) %>%
   dplyr::pull(formato_link) %>%
@@ -72,32 +82,3 @@ list.files(
 ```
 
 
-```{r}
-loaded_files <-
-  list.files("data/reading_downloaded_files/", full.names = TRUE) %>%
-  purrr::map_dfr(readr::read_rds)
-
-
-
-united_loaded_files <- loaded_files %>%
-  dplyr::filter(
-    text != "Erro Antiword",
-    doc_id != "at-1994-11-18-ata_1-ata-de-fundacao-e-instalacao-do-cbh-at-doe-18-11-94-caderno-executivo-i-pagina-56.pdf"
-  )   %>%
-  dplyr::full_join(dataset_download, by = c("doc_id" = "nome_arquivo_curto"))
-
-
-
-
-
-
-
-united_clean_text <- united_loaded_files %>%
-  dplyr::mutate(
-    texto = stringr::str_replace_all(text, "_", " "),
-    texto = stringr::str_squish(texto)
-  )
-
-# head(united_clean_text$texto)
-
-```

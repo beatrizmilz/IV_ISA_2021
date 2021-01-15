@@ -1,0 +1,51 @@
+---
+title: "Untitled"
+author: "bia"
+date: "15/01/2021"
+output: html_document
+---
+
+```{r}
+library(magrittr)
+
+dataset_atas <- readr::read_rds("data/dataset_atas.Rds")
+```
+
+```{r}
+loaded_files <-
+  list.files("data/reading_downloaded_files/", full.names = TRUE) %>%
+  purrr::map_dfr(readr::read_rds)
+
+
+
+united_loaded_files <- loaded_files %>%
+  dplyr::filter(
+    text != "Erro Antiword",
+    
+    
+    doc_id != "at-1994-11-18-ata_1-ata-de-fundacao-e-instalacao-do-cbh-at-doe-18-11-94-caderno-executivo-i-pagina-56.pdf"
+    
+    
+  )   %>%
+  dplyr::mutate(doc_id = dplyr::case_when(
+    doc_id %in% c(
+      "at-1995-09-19-ata_1-ata2-reuniao-ordinaria-de-19_9_95.pdf",
+      "ln-2005-05-20-ata_1-ata-reuniao-20-maio-05.pdf",
+      "at-1998-03-20-ata_1-ata_reuniao-ordinaria-de-20_3_98-resumida.pdf"
+    ) ~
+      stringr::str_replace(doc_id, pattern = ".pdf", ".doc")  ,
+    TRUE ~ doc_id
+  )) %>%
+  
+  
+  dplyr::right_join(dataset_atas, by = c("doc_id" = "nome_arquivo_curto"))
+
+
+united_loaded_files %>% readr::write_rds("data/dataset_corpus_raw.Rds")
+
+
+
+
+
+
+```
