@@ -18,40 +18,155 @@ dataset_corpus_raw <- readr::read_rds("data/dataset_corpus_raw.Rds")
 
 
 ```{r}
-
 united_clean_text <- dataset_corpus_raw %>%
   dplyr::mutate(
     texto = stringr::str_replace_all(text, "_", " "),
     texto = stringr::str_squish(texto)
+    
+  ) %>%
+  dplyr::mutate(ano = lubridate::year(data_reuniao)) %>%
+  dplyr::mutate(
+    crise = dplyr::case_when(
+      ano %in% c(2008:2012) ~  "antes_crise" ,
+      ano %in% c(2013:2015) ~  "durante_crise" ,
+      ano %in% c(2016:2020) ~  "pos_crise" ,
+      TRUE ~ "outros"
+      
+    )
+  )
+
+small_dataset <-   united_clean_text %>%
+  dplyr::select(comite, ano, crise, texto) 
+```
+
+```{r}
+stopwords_br <- stopwords::stopwords(language = "pt") %>%
+  tibble::as.tibble() %>%
+  dplyr::rename("word" = value) %>%
+  tibble::add_row(
+    word = c(
+      "é",
+      "ser",
+      "sobre",
+      "reunião",
+      "então",
+      "sr",
+      "presidente",
+      "cbh",
+      "comitê",
+      "pcj",
+      "aqui",
+      "porque",
+      "acho",
+      "vai",
+      "fazer",
+      "vamos",
+      "nº",
+      "comitês",
+      "bacia",
+      "questão",
+      "secretario",
+      "secretaria",
+      "dizer",
+      "representando"
+      
+    )
   )
 
 
-
+stopwords_br_bigram <-
+  tibble::tibble(word = "secretário executivo") %>%
+  tibble::add_row(
+    word = c(
+      "secretária executiva",
+      "amauri pollachi",
+      "rui brasil",
+      "maria emília",
+      "joão ricardo",
+      "josé roberto"
+    )
+  )
 ```
 
 
 ```{r}
-
-stopwords_br <- stopwords::stopwords(language = "pt") %>% 
-  tibble::as.tibble() %>% 
-  dplyr::rename("word" = value) %>% 
-  tibble::add_row(word = c("é", "ser", "sobre", "reunião", "então", "sr",
-                           "presidente", "cbh", "comitê"))
-
   
-tokens <- united_clean_text %>% 
-  dplyr::mutate(ano = lubridate::year(data_reuniao)) %>%
-  dplyr::select(comite, ano, texto) %>%
-  tidytext::unnest_tokens(word, texto)
+# 
+# tokens <- small_dataset %>% 
+#   tidytext::unnest_tokens(word, texto)
+# 
+# 
+# tokens %>%
+#   dplyr::anti_join(stopwords_br) %>% 
+#   dplyr::group_by(ano, comite) %>% 
+#   dplyr::count(word, sort = TRUE)  #%>% 
+#   #dplyr::mutate(word = reorder(word, n)) #%>%
+#   # dplyr::top_n(10) %>% 
+#   # ggplot(aes(n, word)) +
+#   # geom_col() +
+#   # facet_wrap(~ comite) + 
+#   # labs(y = NULL)
+```
+
+## Bigrams
+
+```{r}
+tokens_bigram <- small_dataset %>%
+  tidytext::unnest_tokens(bigram, texto, token = "ngrams", n = 2)
+```
 
 
-tokens %>%
-  dplyr::anti_join(stopwords_br) %>% 
- # dplyr::group_by(ano, comite) %>% 
-  dplyr::count(word, sort = TRUE)  %>% 
-  dplyr::mutate(word = reorder(word, n)) %>%
-  ggplot(aes(n, word)) +
-  geom_col() +
-  labs(y = NULL)
+```{r}
+bigrams_separated <- tokens_bigram %>%
+  tidyr::separate(bigram, c("word1", "word2"), sep = " ")
+
+bigrams_filtered <- bigrams_separated %>%
+  dplyr::filter(!word1 %in% stopwords_br$word) %>%
+  dplyr::filter(!word2 %in% stopwords_br$word) %>%
+  dplyr::mutate(
+    word1 = stringr::str_replace_all(word1, pattern = "[0-9]+", replacement = NA_character_),
+    
+    word2 = stringr::str_replace_all(word2, pattern = "[0-9]+", replacement = NA_character_)
+  ) %>%
+  tidyr::drop_na()
+
+
+
+bigrams_united <- bigrams_filtered %>%
+  tidyr::unite(bigram, word1, word2, sep = " ") %>%
+  dplyr::filter(!bigram %in% stopwords_br_bigram$word) %>%
+  dplyr::mutate(
+    bigram = dplyr::case_when(
+      bigram == "câmara técnica" ~ "câmara(s) técnica(s)",
+      bigram == "câmaras técnicas" ~ "câmara(s) técnica(s)",
+      TRUE ~ bigram
+    )
+  )
+
+
+
+# new bigram counts:
+bigram_counts <- bigrams_united %>%
+  dplyr::group_by(crise, comite) %>%
+  dplyr::count(bigram, sort = TRUE)
+
+
+
+
+bigram_counts %>%
+  dplyr::filter(comite == "Alto Tietê",
+                crise != "outros") %>%
+  dplyr::ungroup() %>%
+  dplyr::group_by(crise) %>%
+  dplyr::top_n(10, wt = n) %>%
+  dplyr::arrange(crise, n) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(bigram = reorder(bigram, n)) %>%
+  
+  ggplot() +
+  geom_col(aes(x = bigram, y = n)) +
+  coord_flip() +
+  facet_wrap( ~ crise, scales = "free", nrow = 2) +
+  theme_bw()
 ```
 
