@@ -1,0 +1,136 @@
+/* Slide inicial */
+
+.title-slide, .title-slide h1, .title-slide h2, .title-slide h3  {
+  background-color: #FFFFFF;
+  color: #515151;
+}
+
+
+
+h1  {
+  font-size: 2rem ;
+
+}
+
+ .title-slide h1  {
+  font-size: 35px ;
+
+}
+ .title-slide h2  {
+  font-size: 20px ;
+
+}
+
+ .title-slide h3  {
+  font-size: 25px ;
+
+}
+
+
+.pull-left p , .pull-right p {
+text-align: left;
+
+}
+
+
+.inverse h1 {
+   color: #000000;
+}
+
+p{
+ text-align: justify;
+ font-size: 1.2rem;
+}
+
+
+li{
+ font-size: 1.2rem;
+}
+
+/*três colunas */
+
+.tres-col-esquerda {
+
+  float: left;
+  width: 30%;
+}
+
+.tres-col-meio {
+
+  position: absolute;
+   left: 35%;
+  width: 30%;
+}
+
+
+.tres-col-direita {
+
+  float: right;
+  width: 30%;
+}
+
+.tres-col-direita p, .tres-col-meio p, .tres-col-esquerda p{
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+
+.tres-col-direita img, .tres-col-meio img, .tres-col-esquerda img{
+    border-radius: 50%;
+}
+
+
+/* panel set */
+
+.panelset li, .panel-tabs li, .panel-tab li{
+ font-size: 1rem;
+}
+
+.panelset .caption, .panel-tabs .caption, .panel-tab .caption{
+   text-align: center;
+   font-size: small;
+  font-style: italic;
+}
+
+
+.traduzir{
+  background-color: #FFFF00;
+}
+
+
+.caption{
+
+  text-align: center;
+  font-size: 0.6rem;
+
+}
+
+
+
+.pull-left-70 {
+  float: left;
+  width: 67%;
+}
+.pull-right-30 {
+  float: right;
+  width: 27%;
+}
+
+
+.remark-slide-content > h1:first-child {
+  padding-right: 110px;
+}
+
+
+
+
+td, th{
+  font-size: 0.6em;
+
+}
+
+.bib p{
+  font-size: 0.9em;
+}
+

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Transparency of Information on the Water Basin Committees Plenums in the Sao Paulo Macrometropolis, Brazil</title>
+    <meta charset="utf-8" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"f00ee9907a2041feba959280c7298e07","expires":1}</script>
+    <script src="libs/himalaya/himalaya.js"></script>
+    <script src="libs/js-cookie/js.cookie.js"></script>
+    <link href="libs/editable/editable.css" rel="stylesheet" />
+    <script src="libs/editable/editable.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/xaringanExtra_fit-screen/fit-screen.js"></script>
+    <link href="libs/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <meta name="github-repo" content="beatrizmilz/slidesR"/>
+    <meta name="twitter:title" content="Transparência em atas de Comitês de Bacias Hidrográficas na MMP"/>
+    <meta name="twitter:description" content="Avaliação da transparência em atas de reuniões  dos Comitês de Bacias Hidrográficas na  Macrometrópole Paulista (Brasil). Apresentado por Beatriz Milz Na Conferencia Latinoamericana sobre Uso de R en Investigación e Desarrollo (LatinR)."/>
+    <meta name="twitter:url" content="https://macroamb-latin-r.netlify.app/"/>
+    <meta name="twitter:image:src" content="https://macroamb-latin-r.netlify.app/img/share-card.png"/>
+    <meta name="twitter:image:alt" content="Primeiro slide da apresentação sobre  Avaliação da transparência em atas de reuniões  dos Comitês de Bacias Hidrográficas na  Macrometrópole Paulista (Brasil). Apresentado por Beatriz Milz."/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:creator" content="@beamilz"/>
+    <meta name="twitter:site" content="@beamilz"/>
+    <meta property="og:title" content="Transparência em atas de Comitês de Bacias Hidrográficas na MMP"/>
+    <meta property="og:description" content="Avaliação da transparência em atas de reuniões  dos Comitês de Bacias Hidrográficas na  Macrometrópole Paulista (Brasil). Apresentado por Beatriz Milz Na Conferencia Latinoamericana sobre Uso de R en Investigación e Desarrollo (LatinR)."/>
+    <meta property="og:url" content="https://macroamb-latin-r.netlify.app/"/>
+    <meta property="og:image" content="https://macroamb-latin-r.netlify.app/img/share-card.png"/>
+    <meta property="og:image:alt" content="Primeiro slide da apresentação sobre  Avaliação da transparência em atas de reuniões  dos Comitês de Bacias Hidrográficas na  Macrometrópole Paulista (Brasil). Apresentado por Beatriz Milz."/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:locale" content="en_US"/>
+    <meta property="article:author" content="Beatriz Milz"/>
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: middle, center,  title-slide
+
+&lt;!-- inicio font awesome --&gt;
+&lt;script src="https://kit.fontawesome.com/1f72d6921a.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+&lt;!-- final font awesome --&gt;
+
+&lt;!-- inicio academic icons --&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"&gt;
+
+&lt;!-- final academic icons --&gt;
+
+
+
+
+
+
+
+
+
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 400px;
+height: 128px;
+z-index: 0;
+background-image: url(img/logos_bia.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+top:1em;right:1em;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('a')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = 'http://pesquisa.ufabc.edu.br/macroamb/'
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+
+
+&lt;img src="img/isaconf.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+# Transparency of Information on the Water Basin Committees Plenums in the Sao Paulo Macrometropolis, Brazil
+
+
+
+
+
+### Beatriz Milz &amp; Pedro Roberto Jacobi
+
+##  FAPESP Grant numbers: 2018/23771-6 e 2015/03804-9
+
+## Presentation available in: [bit.ly/Macroamb](http://bit.ly/Macroamb)
+
+
+### February 2021
+
+---
+class: 
+
+
+## Authors
+
+.pull-left[
+
+&lt;img src="img/foto-bia.jpg" width="150px" style="display: block; margin: auto;" /&gt;
+
+__Beatriz Milz__ 
+
+&lt;a href='mailto:beatriz.milz@usp.br'&gt;&lt;i class="far fa-envelope"&gt;&lt;/i&gt;&lt;/a&gt;  &lt;a href='https://orcid.org/0000-0002-3064-4486'&gt;&lt;i class="fab fa-orcid"&gt;&lt;/i&gt;&lt;/a&gt;   &lt;a href='http://lattes.cnpq.br/5150665880581477'&gt;&lt;i class="ai ai-lattes"&gt;&lt;/i&gt;&lt;/a&gt;  &lt;a href='https://beatrizmilz.github.io/resume/resume.pdf'&gt;&lt;i class="ai ai-cv"&gt;&lt;/i&gt;&lt;/a&gt; &lt;a href='https://twitter.com/BeaMilz'&gt;&lt;i class="fab fa-twitter"&gt;&lt;/i&gt;&lt;/a&gt;  &lt;a href='https://github.com/beatrizmilz'&gt;&lt;i class="fab fa-github"&gt;&lt;/i&gt;&lt;/a&gt;
+
+
+Doctorate Student in Environmental Sciences
+
+Institute of Energy and Environment
+
+University of São Paulo
+
+
+]
+
+
+.pull-right[
+
+&lt;img src="img/foto-pedro.jpg" width="150px" style="display: block; margin: auto;" /&gt;
+
+__Pedro Roberto Jacobi__
+
+&lt;a href='mailto:prjacobi@gmail.com'&gt;&lt;i class="far fa-envelope"&gt;&lt;/i&gt;&lt;/a&gt;  &lt;a href='https://orcid.org/0000-0001-6143-3019'&gt;&lt;i class="fab fa-orcid"&gt;&lt;/i&gt;&lt;/a&gt;   &lt;a href='http://lattes.cnpq.br/6799067928413168'&gt;&lt;i class="ai ai-lattes"&gt;&lt;/i&gt;&lt;/a&gt; &lt;a href='https://twitter.com/prjacobi'&gt;&lt;i class="fab fa-twitter"&gt;&lt;/i&gt;&lt;/a&gt;
+
+Senior Professor 
+
+Institute of Energy and Environment
+
+University of São Paulo
+]
+
+
+---
+class: middle
+
+
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+Thematic Project from The São Paulo Research Foundation (FAPESP): 
+
+__Environmental governance of macrometropolis paulista in face of climate variability__ (MacroAmb)
+
+.tr[
+Grant number:	15/03804-9 
+]]
+
+- Read more: [FAPESP](https://bv.fapesp.br/en/auxilios/97000/environmental-governance-of-macrometropolis-paulista-in-face-of-climate-variability/), [Website](http://pesquisa.ufabc.edu.br/macroamb/), [Youtube](https://www.youtube.com/channel/UCXV-E1w76AjukSgWQ7FGkYA/videos).
+
+
+
+---
+
+# Sao Paulo Macrometropolis
+
+&lt;img src="img/mmp-laplan.jpg" width="400px" style="display: block; margin: auto;" /&gt;
+
+
+???
+
+- The Sao Paulo Macrometropolis (SPMM) is the most important urban agglomeration in Brazil and includes more than 170
+municipalities (including the Sao Paulo Metropolitan Region) and more than 33,6 million inhabitants.
+
+- Região de maior influência econômica.
+
+<i class="fas  fa-angle-right "></i> Mais de 170 municípios (abrangendo a Região Metropolitana de São Paulo)
+
+<i class="fas  fa-angle-right "></i> Mais de 33 milhões de habitantes (em 2018) ([EMPLASA, 2019](https://emplasa.sp.gov.br/MMP))
+
+<i class="fas  fa-angle-right "></i> Maior aglomeração urbana do Brasil ([DAEE, 2013](http://www.daee.sp.gov.br/index.php?option=com_content&amp;view=article&amp;id=1112:plano-diretor-de-aproveitamento-dos-recursos-hidricos-para-a-macrometropole-paulista); [TAVARES, 2018](https://scielo.conicyt.cl/scielo.php?script=sci_arttext&amp;pid=S0250-71612018000300115))
+
+
+
+
+---
+
+## 2013 - 2015
+
+### Water Crisis affected the SPMM
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="img/g1-seca.jpg" alt="Fonte: &amp;lt;a href='http://g1.globo.com/sao-paulo/noticia/2014/09/sistema-cantareira-atinge-81-menor-indice-ja-registrado-em-sp.html'&amp;gt; G1, 2014.&amp;lt;/a&amp;gt; Descrição: foto da Seca na represa Jaguari-Jacareí." width="60%" /&gt;
+&lt;p class="caption"&gt;Fonte: &lt;a href='http://g1.globo.com/sao-paulo/noticia/2014/09/sistema-cantareira-atinge-81-menor-indice-ja-registrado-em-sp.html'&gt; G1, 2014.&lt;/a&gt; Descrição: foto da Seca na represa Jaguari-Jacareí.&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+
+???
+
+- Recently (2014-2015) the SPMM faced a severe water crisis. 
+
+- 2013 - 2015: Crise hídrica afetou a Macrometrópole de São Paulo ([Jacobi; Cibim; Leão, 2015](http://www.scielo.br/scielo.php?script=sci_arttext&amp;pid=S0103-40142015000200027))
+
+&lt;!-- -  Companhia de Saneamento Básico do Estado de São Paulo (SABESP): --&gt;
+&lt;!--   - Crise hídrica foi consequência da falta de chuvas --&gt;
+&lt;!--   - "A  estiagem  de  2014  foi  um  evento excepcional, sem  precedentes" ([SABESP, 2015, p. 10](http://site.sabesp.com.br/site/uploads/file/crisehidrica/chess_crise_hidrica.pdf)). --&gt;
+
+&lt;!-- - Pesquisadoras(es) apontaram: --&gt;
+&lt;!--   - Crise como consequência da falta de gestão estratégica do sistema de abastecimento de água ([Cortês _et al._, 2015](http://www.scielo.br/scielo.php?script=sci_abstract&amp;pid=S0103-40142015000200007&amp;lng=en&amp;nrm=iso&amp;tlng=pt)). --&gt;
+  - Falta de transparência de informações sobre a gestão da água ([Empinotti; Jacobi; Fracalanza, 2016](https://www.scielo.br/scielo.php?script=sci_arttext&amp;pid=S0103-40142016000300063))
+
+
+
+---
+class: middle
+
+&lt;bR&gt;
+### Water Resource Management Units
+
+
+- There are eight Water Resource Management Units (WRMU)
+completely or partially in the area of the SPMM:
+
+&lt;img src="img/map_ugrhi.jpeg" width="8000" style="display: block; margin: auto;" /&gt;
+
+      
+
+
+  
+
+???
+
+- This region presents complexity of water resources
+management, and there are eight Water Resource Management Units (UGRHI) completely or partially in the area of the SPMM. 
+
+
+- Política Estadual de Recursos Hídricos ([Estado de São Paulo, 1991](https://www.al.sp.gov.br/repositorio/legislacao/lei/1991/lei-7663-30.12.1991.html)):
+
+  - Divide o Estado de São Paulo em 22 Unidades de Gerenciamento de Recursos Hídricos (UGRHI) 
+  
+  - Oito UGRHIs estão parcial ou completamente na área da Macrometrópole Paulista:
+  
+      &lt;!-- - Paraíba do Sul --&gt;
+      &lt;!-- - Litoral Norte  --&gt;
+      &lt;!-- - Piracicaba/Capivari/Jundiaí --&gt;
+      &lt;!-- - Alto Tietê --&gt;
+      &lt;!-- - Baixada Santista --&gt;
+      &lt;!-- - Mogi-Guaçu --&gt;
+      &lt;!-- - Tietê/Sorocaba --&gt;
+      &lt;!-- - Ribeira de Iguape/Litoral Sul. --&gt;
+
+      
+- Cada UGRHI tem o seu correspondente Comitê de Bacia Hidrográfica.
+  
+
+
+
+
+    
+---
+&lt;br&gt;
+### Water Basin Committees
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="img/comite2.jpg" alt="Source: Ilustration by &amp;lt;a href='https://www.ana.gov.br/aguas-no-brasil/sistema-de-gerenciamento-de-recursos-hidricos/comites-de-bacia-hidrografica'&amp;gt;Hamilton Rangel&amp;lt;/a&amp;gt;." width="50%" /&gt;
+&lt;p class="caption"&gt;Source: Ilustration by &lt;a href='https://www.ana.gov.br/aguas-no-brasil/sistema-de-gerenciamento-de-recursos-hidricos/comites-de-bacia-hidrografica'&gt;Hamilton Rangel&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+
+???
+
+
+- The National Water Law in Brazil was created in 1997, incorporating modern water resources management principles and creating the “Water basin committees”, which incorporate civil society actors on decision making.
+
+- The transparency of information on water resources management are one of the fundamental conditions for achieving good water governance, along with promoting participation, inclusion, accountability, predictability and responsiveness. 
+
+- Comitês de bacia hidrográfica
+  - Grupos de gestão compostos por representantes: ([ANA, 20--](https://www.ana.gov.br/aguas-no-brasil/sistema-de-gerenciamento-de-recursos-hidricos/comites-de-bacia-hidrografica/comite-de-bacia-hidrografica))
+      - Poder público estadual, municipal
+      - Usuários da água
+      - Sociedade civil
+      
+  - Diversas competências, como: ([BRASIL, 1997](http://www.planalto.gov.br/ccivil_03/Leis/L9433.htm))
+      - promover o debate das questões relacionadas a recursos hídricos; 
+      - arbitrar os conflitos relacionados aos recursos hídricos;
+      - aprovar e acompanhar a execução do Plano de Recursos Hídricos da bacia;
+      - entre outros.
+      
+- Os Comitês se reunem em reuniões para discutir e tomar decisões. 
+
+- As atas de reunião são registros escritos sobre os acontecimentos e assuntos debatidos durante as reuniões dos Comitês.
+
+-  As reuniões dos Comitês de Bacias Hidrográficas devem ser públicas ([Estado de São Paulo, 1991](https://www.al.sp.gov.br/repositorio/legislacao/lei/1991/lei-7663-30.12.1991.html)).
+
+   
+---
+class: middle
+
+### SigRH
+
+&lt;img src="img/sigrh.PNG" width="90%" style="display: block; margin: auto;" /&gt;
+Website: http://www.sigrh.sp.gov.br/
+
+???
+
+
+- SigRH - Sistema Integrado de Gerenciamento de Recursos Hídricos do Estado de São Paulo
+
+  - Disponibiliza informações sobre a gestão de recursos hídricos no estado de São Paulo publicamente em seu website: http://www.sigrh.sp.gov.br .
+  
+  - Possui informações das UGRHIs, e seu correspondente Comitê de Bacia.
+
+ 
+ 
+---
+class: inverse, middle
+
+# Objetivo
+
+
+
+Considering the importance of the transparency of
+information on water resources management:
+
+- We aim to evaluate whether the plenum’s minutes of the Water Basin Committees that are part of the SPMM are made available publicly on the Portal SigRH - Integrated System of Water Resources Management of the State of Sao Paulo.
+
+- Considering the plenum’s minutes encountered, we also aim to identify the most discussed subjects in plenary sessions using text mining methods.
+
+
+---
+# Metodologia 
+
+- Utilização:
+  - Linguagem de programação R
+  - Ambiente de Desenvolvimento Integrado (IDE) [RStudio](https://rstudio.com/)
+  
+&lt;img src="img/rstudio-r.jpg" width="30%" style="display: block; margin: auto;" /&gt;
+
+- Diversos pacotes para coleta, limpeza, análise, visualização e comunicação dos dados: `rvest`, `purrr`, `dplyr`, `tibble`, `stringr`, `magrittr`, `glue`, `ggplot2` (que são parte do `tidyverse`), `httr`, `sf`, `ggspatial`.
+
+- __Coleta de dados__: Raspagem de dados de site (Web Scraping) em Setembro/2020
+
+
+???
+- Discussão baseada nos Princípios de Dados de Governo Aberto (em inglês: _[Principles of Open Government Data](https://opengovdata.io/2014/8-principles/)_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/) 
+
+
+
+---
+
+### Website
+
+&lt;img src="img/sigrh2.PNG" width="90%" style="display: block; margin: auto;" /&gt;
+
+Página web: http://www.sigrh.sp.gov.br/cbhpcj/atas
+
+---
+### HTML -&gt; Raspagem de dados -&gt; Tabela 
+
+&lt;img src="img/carbon_table.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+
+
+---
+
+### HTML -&gt; Raspagem de dados -&gt; Tabela 
+
+
+
+
+
+
+---
+# Resultados preliminares
+
+- Não discriminatório - _Non-Discriminatory_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/) 
+
+- Dados devem ser completos - _Complete_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/) 
+
+- Atas disponibilizadas por comitê, ao longo do tempo:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+???
+_Non-Discriminatory_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/): "Data are available to anyone, with no requirement of registration."
+
+_Complete_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/): "All public data are made available."
+
+---
+class: middle
+
+- O link da ata encaminha para uma página web que existe e está funcionando?
+
+  - 200 - Requisição bem sucedida
+  - 404 - Não encontrado
+  - NA - Não foi disponibilizado link para ata
+  
+  
+.pull-left[
+
+
+
+
+]
+
+.pull-right[
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="img/404.png" alt="Fonte da imagem: &amp;lt;a ref='https://sitechecker.pro/'&amp;gt;Site Checker&amp;lt;/a&amp;gt;" width="1905" /&gt;
+&lt;p class="caption"&gt;Fonte da imagem: &lt;a ref='https://sitechecker.pro/'&gt;Site Checker&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+
+]
+
+
+
+
+
+---
+class: middle
+
+## Tempo de disponibilidade
+
+- _Timely_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/) 
+
+- Para atas de reuniões que ocorreram a partir de 2015:
+
+
+
+???
+
+- _Timely_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/): Data are made available as quickly as necessary to preserve the value of the data.
+
+
+---
+class: middle
+
+## Extração automatizada dos dados
+
+
+.pull-left[
+
+&lt;!-- - _Machine Processable_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/)   --&gt;
+
+- Quais tipos de arquivos são mais disponibilizados?
+
+
+]
+
+.pull-right[
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="img/pdf-escaneado.jpg" alt="Exemplo de PDF escaneado. Fonte: &amp;lt;a href=&amp;quot;http://www.sigrh.sp.gov.br/public/uploads/records//CBH-AT/17494/ata-de-fundacao-e-instalacao-do-cbh-at-doe-18-11-94-caderno-executivo-i-pagina-56.pdf&amp;quot;&amp;gt; SIGRh&amp;lt;/a&amp;gt;. " width="70%" /&gt;
+&lt;p class="caption"&gt;Exemplo de PDF escaneado. Fonte: &lt;a href="http://www.sigrh.sp.gov.br/public/uploads/records//CBH-AT/17494/ata-de-fundacao-e-instalacao-do-cbh-at-doe-18-11-94-caderno-executivo-i-pagina-56.pdf"&gt; SIGRh&lt;/a&gt;. &lt;/p&gt;
+&lt;/div&gt;
+
+]
+
+???
+
+- _Machine Processable_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/):  Data are reasonably structured to allow automated processing of it.  
+
+
+---
+
+# Agradecimentos
+
+As pessoas autoras agradecem o apoio da Fundação de Amparo à Pesquisa do Estado de São Paulo (FAPESP) processo nº __2018/23771-6__. O trabalho é parte das atividades do projeto temático, em andamento, “Governança ambiental na Macrometrópole Paulista, face à variabilidade climática”, processo nº 15/03804-9, financiado pela FAPESP e vinculado ao Programa FAPESP de Pesquisa sobre Mudanças Climáticas Globais.
+
+
+
+Agradeço a ajuda:
+  - Dúvidas sobre programação: [Bruna Wundervald](https://brunaw.com/), [Daniel Falbel](http://dfalbel.github.io/), [Caio Lente](https://lente.dev/), [José de Jesus Filho](https://github.com/jjesusfilho), [Athos Damiani](https://github.com/Athospd).
+
+  - Sugestões com a apresentação: [Igor Matheus Santana Chaves](https://orcid.org/0000-0003-3833-9301), [Lidiane Alonso Paixão dos Anjos](https://orcid.org/0000-0001-8054-0987), [Julio Trecenti](https://github.com/jtrecenti), [Angélica Custódio](https://www.linkedin.com/in/angelicacustodio/?originalSubdomain=br)
+
+
+Amauri Polacchi
+---
+class: bib
+# Referências
+
+
+BRASIL. 1997. “LEI nº 9.433, DE 8 DE JANEIRO DE 1997.” http://www.planalto.gov.br/ccivil_03/Leis/L9433.htm
+
+DAEE. 2013. “Macrometrópole - Sumário Executivo - Plano Diretor de Aproveitamento de Recursos Hídricos Para a Macrometrópole Paulista.” http://www.daee.sp.gov.br/index.php?option=com_content&amp;view=article&amp;id=1112:plano-diretor-de-aproveitamento-dos-recursos-hidricos-para-a-macrometropole-paulista.
+
+EMPLASA. 2017. “Macrometrópole Paulista”. https://www.emplasa.sp.gov.br/MMP.
+
+R Core Team. 2019. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing. https://www.R-project.org/.
+
+Sao Paulo State. 2020. “Portal SIGRH - Sistema Integrado de Gerenciamento de Recursos Hídricos Do Estado de São Paulo.” http://www.sigrh.sp.gov.br/.
+
+———. 1991. “Lei Nº 7.663, de 30 de Dezembro de 1991.” http://www.al.sp.gov.br/leis/legislacao-doestado/.
+
+Tauberer, Joshua. 2014. Open Government Data: The Book. 2nd ed. https://opengovdata.io/2014/8-principles/.
+
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the tidyverse.” Journal of Open Source Software 4 (43): 1686. https://doi.org/10.21105/joss.01686.
+
+
+---
+class: center, middle
+
+## Thank you!
+
+
+
+&lt;center&gt;
+
+Find us at: &lt;BR&gt;&lt;br&gt;&lt;/center&gt;
+
+
+- Beatriz Milz:
+
+  &lt;a href='mailto:beatriz.milz@usp.br'&gt;&lt;i class="far fa-envelope"&gt;&lt;/i&gt; beatriz.milz@usp.br&lt;/a&gt; / &lt;a href='https://twitter.com/BeaMilz'&gt;&lt;i class="fab fa-twitter"&gt;&lt;/i&gt; @BeaMilz&lt;/a&gt; / &lt;a href='https://github.com/beatrizmilz'&gt;&lt;i class="fab fa-github"&gt;&lt;/i&gt; beatrizmilz&lt;/a&gt; 
+
+
+- Pedro Jacobi:
+
+  &lt;a href='mailto:prjacobi@gmail.com'&gt;&lt;i class="far fa-envelope"&gt;&lt;/i&gt; prjacobi@gmail.com&lt;/a&gt; &lt;br&gt;&lt;br&gt;
+
+
+Presentation made with &lt;a href='https://www.r-project.org/'&gt;&lt;i class="fab fa-r-project"&gt;&lt;/i&gt;&lt;/a&gt; and the packages &lt;i class="fas fa-box-open"&gt;&lt;/i&gt; [**xaringan**](https://github.com/yihui/xaringan) and &lt;i class="fas fa-box-open"&gt;&lt;/i&gt; [**xaringanthemer**](https://pkg.garrickadenbuie.com/xaringanthemer/).
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
