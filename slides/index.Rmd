@@ -84,25 +84,26 @@ xaringanExtra::use_tachyons()
 ```{r metathis, echo=FALSE}
 library(metathis)
 meta() %>%
-  meta_name("github-repo" = "beatrizmilz/slidesR") %>%
+  meta_name("github-repo" = "beatrizmilz/IV_ISA_2021") %>%
   meta_social(
-    title = "Transparência em atas de Comitês de Bacias Hidrográficas na MMP",
+    title = "Transparency of Information on the Water Basin Committees Plenums in the Sao Paulo Macrometropolis, Brazil",
     description = paste(
-      "Avaliação da transparência em atas de reuniões ",
-      "dos Comitês de Bacias Hidrográficas na ",
-      "Macrometrópole Paulista (Brasil).",
-      "Apresentado por Beatriz Milz",
-      "Na Conferencia Latinoamericana sobre Uso de R en Investigación e Desarrollo (LatinR)."
+      "Transparency of Information on the Water ",
+      "Basin Committees Plenums in the Sao Paulo ",
+      "Macrometropolis, Brazil. ",
+      "Presented by Beatriz Milz, ",
+      "In the conference: IV ISA Forum of Sociology."
       
     ),
-    url = "https://macroamb-latin-r.netlify.app/",
-    image = "https://macroamb-latin-r.netlify.app/img/share-card.png",
+    url = "https://macroamb-isaconf2021.netlify.app/",
+    image = "https://macroamb-isaconf2021.netlify.app/img/share-card.png",
     image_alt = paste(
-      "Primeiro slide da apresentação sobre ",
-      "Avaliação da transparência em atas de reuniões ",
-      "dos Comitês de Bacias Hidrográficas na ",
-      "Macrometrópole Paulista (Brasil).",
-      "Apresentado por Beatriz Milz."
+      "First slide of the presentation:",
+      "Transparency of Information on the Water ",
+      "Basin Committees Plenums in the Sao Paulo ",
+      "Macrometropolis, Brazil. ",
+      "Presented by Beatriz Milz, ",
+      "In the conference: IV ISA Forum of Sociology."
     ),
     og_type = "website",
     og_author = "Beatriz Milz",
@@ -337,6 +338,9 @@ class: middle
 
 ### SigRH
 
+- Portal SigRH - Integrated System
+of Water Resources Management of the State of Sao Paulo.
+
 ```{r, out.width="90%"}
 knitr::include_graphics("img/sigrh.PNG")
 ```
@@ -356,7 +360,7 @@ Website: http://www.sigrh.sp.gov.br/
 ---
 class: inverse, middle
 
-# Objetivo
+# Objectives
 
 
 
@@ -369,19 +373,23 @@ information on water resources management:
 
 
 ---
-# Metodologia 
+# Materials and Methods
 
-- Utilização:
-  - Linguagem de programação R
-  - Ambiente de Desenvolvimento Integrado (IDE) [RStudio](https://rstudio.com/)
+
+-  [R programming language](https://www.r-project.org/) <a href='https://www.r-project.org/'><i class="fab fa-r-project"></i></a>
+
+- Integrated Development Environemnt (IDE):  [RStudio](https://rstudio.com/)
   
 ```{r, out.width="30%"}
 knitr::include_graphics("img/rstudio-r.jpg")
 ```
 
-- Diversos pacotes para coleta, limpeza, análise, visualização e comunicação dos dados: `rvest`, `purrr`, `dplyr`, `tibble`, `stringr`, `magrittr`, `glue`, `ggplot2` (que são parte do `tidyverse`), `httr`, `sf`, `ggspatial`.
+- <i class="fas fa-box-open"></i> Several R packages to perform the collection, cleaning, analysis, visualization and communication of the data:  `rvest`, `purrr`, `dplyr`, `tibble`, `stringr`, `magrittr`, `glue`, `ggplot2` (which are part of the `tidyverse`), `httr`, `sf`, `ggspatial`.
 
-- __Coleta de dados__: Raspagem de dados de site (Web Scraping) em Setembro/2020
+---
+
+
+- The__Data collection__: Web Scraping - December 2020
 
 
 ???
@@ -397,40 +405,18 @@ knitr::include_graphics("img/rstudio-r.jpg")
 knitr::include_graphics("img/sigrh2.PNG")
 ```
 
-Página web: http://www.sigrh.sp.gov.br/cbhpcj/atas
+Website: http://www.sigrh.sp.gov.br/cbhpcj/atas
 
 ---
-### HTML -> Raspagem de dados -> Tabela 
+### Website (HTML) -> Web Scraping -> Table 
 
 ```{r, out.width="100%"}
 knitr::include_graphics("img/carbon_table.png")
 ```
 
 
-
-
-
-
 ---
-
-### HTML -> Raspagem de dados -> Tabela 
-
-
-
-```{r}
-# df_comite %>%
-#   select(nome_ugrhi,
-#          nome_completo_reuniao,
-#          data_da_reuniao,
-#          data_de_postagem,
-#          link_ata_url) %>%
-#   arrange(data_da_reuniao) %>%
-#   head(6) %>% knitr::kable(caption = ' Dados coletados (exemplo parcial). [Download da tabela completa (setembro/2020) no formato `csv`.](https://macroamb-latin-r.netlify.app/dados/dados_atas_2020-09-16.csv)')
-```
-
-
----
-# Resultados preliminares
+# Preliminary Results 
 
 - Não discriminatório - _Non-Discriminatory_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/) 
 
