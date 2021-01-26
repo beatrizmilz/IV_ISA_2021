@@ -14,6 +14,8 @@ library(magrittr)
 library(ggplot2)
 
 dataset_corpus_raw <- readr::read_rds("data/dataset_corpus_raw.Rds")
+
+head(dataset_corpus_raw)
 ```
 
 
@@ -35,90 +37,42 @@ united_clean_text <- dataset_corpus_raw %>%
     )
   )
 
+head(united_clean_text)
+
 small_dataset <-   united_clean_text %>%
   dplyr::select(comite, ano, crise, texto) 
+
+
+head(small_dataset)
+
+# deletando arquivos intermediarios para nao ficar pesado
+rm(dataset_corpus_raw)
+rm(united_clean_text)
 ```
 
-```{r}
-stopwords_br <- stopwords::stopwords(language = "pt") %>%
-  tibble::as.tibble() %>%
-  dplyr::rename("word" = value) %>%
-  tibble::add_row(
-    word = c(
-      "é",
-      "ser",
-      "sobre",
-      "reunião",
-      "então",
-      "sr",
-      "presidente",
-      "cbh",
-      "comitê",
-      "pcj",
-      "aqui",
-      "porque",
-      "acho",
-      "vai",
-      "fazer",
-      "vamos",
-      "nº",
-      "comitês",
-      "bacia",
-      "questão",
-      "secretario",
-      "secretaria",
-      "dizer",
-      "representando"
-      
-    )
-  )
-
-
-stopwords_br_bigram <-
-  tibble::tibble(word = "secretário executivo") %>%
-  tibble::add_row(
-    word = c(
-      "secretária executiva",
-      "amauri pollachi",
-      "rui brasil",
-      "maria emília",
-      "joão ricardo",
-      "josé roberto"
-    )
-  )
-```
-
-
-```{r}
-  
-# 
-# tokens <- small_dataset %>% 
-#   tidytext::unnest_tokens(word, texto)
-# 
-# 
-# tokens %>%
-#   dplyr::anti_join(stopwords_br) %>% 
-#   dplyr::group_by(ano, comite) %>% 
-#   dplyr::count(word, sort = TRUE)  #%>% 
-#   #dplyr::mutate(word = reorder(word, n)) #%>%
-#   # dplyr::top_n(10) %>% 
-#   # ggplot(aes(n, word)) +
-#   # geom_col() +
-#   # facet_wrap(~ comite) + 
-#   # labs(y = NULL)
-```
 
 ## Bigrams
 
 ```{r}
 tokens_bigram <- small_dataset %>%
   tidytext::unnest_tokens(bigram, texto, token = "ngrams", n = 2)
+
+
+# deletando arquivos intermediarios para nao ficar pesado
+rm(small_dataset)
 ```
 
 
 ```{r}
 bigrams_separated <- tokens_bigram %>%
   tidyr::separate(bigram, c("word1", "word2"), sep = " ")
+
+# deletando arquivos intermediarios para nao ficar pesado
+rm(tokens_bigram)
+
+
+source("stop_words.R", encoding = "UTF-8")
+
 
 bigrams_filtered <- bigrams_separated %>%
   dplyr::filter(!word1 %in% stopwords_br$word) %>%
@@ -150,23 +104,59 @@ bigram_counts <- bigrams_united %>%
   dplyr::group_by(crise, comite) %>%
   dplyr::count(bigram, sort = TRUE)
 
+# bigram_counts
 
+```
 
+```{r}
+#devtools::install_github("thomasp85/patchwork")
+library(patchwork)
 
-bigram_counts %>%
-  dplyr::filter(comite == "Alto Tietê",
-                crise != "outros") %>%
-  dplyr::ungroup() %>%
-  dplyr::group_by(crise) %>%
-  dplyr::top_n(10, wt = n) %>%
-  dplyr::arrange(crise, n) %>%
-  dplyr::ungroup() %>%
-  dplyr::mutate(bigram = reorder(bigram, n)) %>%
+gerar_grafico_comite <- function(comite_string){
   
+bigrams <- bigram_counts %>%
+  dplyr::filter(
+    comite == {{comite_string}},
+                crise != "outros") %>%
+  dplyr::ungroup() 
+  
+
+gerar_grafico_crise <- function(qual_crise){
+  bigrams  %>% 
+  dplyr::filter(crise == {{qual_crise}}) %>%
+   dplyr::top_n(10) %>% 
+  dplyr::mutate(bigram = reorder(bigram, n)) %>%
   ggplot() +
   geom_col(aes(x = bigram, y = n)) +
   coord_flip() +
-  facet_wrap( ~ crise, scales = "free", nrow = 2) +
-  theme_bw()
+ # facet_grid(comite ~ crise) +
+  theme_bw() + 
+#  labs(y = "Quantidade de Ocorrências", x = "Bigram")  
+   theme(axis.title.x=element_blank())
+}
+ 
+antes_crise <- gerar_grafico_crise("antes_crise") +
+   labs(x = "Bigram") 
+
+durante_crise <- gerar_grafico_crise("durante_crise") +
+   labs(y = "Quantidade de Ocorrências") 
+
+pos_crise <- gerar_grafico_crise("pos_crise")
+
+(antes_crise + durante_crise + pos_crise)  
+
+}
+
+gerar_grafico_comite("Alto Tietê")
+gerar_grafico_comite("Baixada Santista")
+gerar_grafico_comite("Piracicaba / Capivari / Jundiaí")
+gerar_grafico_comite("Sorocaba e Médio Tietê")
+gerar_grafico_comite("Litoral Norte")
+gerar_grafico_comite("Mogi-Guaçu")
+gerar_grafico_comite("Ribeira do Iguape e Litoral Sul")
+
+unique(bigram_counts$comite)
+
+
 ```
 

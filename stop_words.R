@@ -1,0 +1,127 @@
+# stop words
+
+stopwords_br <- stopwords::stopwords(language = "pt") %>%
+  tibble::as_tibble() %>%
+  dplyr::rename("word" = value) %>%
+  tibble::add_row(
+    word = c(
+      "é",
+      "ser",
+      "sobre",
+      "reunião",
+      "então",
+      "sr",
+      "presidente",
+      "cbh",
+      "comitê",
+      "pcj",
+      "aqui",
+      "porque",
+      "acho",
+      "vai",
+      "fazer",
+      "vamos",
+      "nº",
+      "comitês",
+      "bacia",
+      "questão",
+      "secretario",
+      "secretaria",
+      "dizer",
+      "representando",
+      "borsari",
+      "n.º",
+      "superintendente",
+      "ricardo",
+      "hugo",
+      "dr",
+      "alguma",
+      "coisa",
+      "ata",
+      "luiz",
+      "roberto",
+      "segundo",
+      "leo",
+      "anfitrião",
+      "sendo",
+      "n",
+      "explicou",
+      "moretti",
+      "informou",
+      "neste",
+      "ato",
+      "wanda",
+      "representada",
+      "oficialmente",
+      "informes",
+      "ano",
+      "rua",
+      "tel",
+      "cep",
+      "ordinária",
+      "pauta",
+      "ad"
+
+    )
+  )
+
+
+stopwords_br_bigram <-
+  tibble::tibble(word = "secretário executivo") %>%
+  tibble::add_row(
+    word = c(
+      "secretária executiva",
+      "amauri pollachi",
+      "rui brasil",
+      "maria emília",
+      "joão ricardo",
+      "josé roberto",
+      "hugo marques",
+      "marcus vinicius",
+      "celso garagnani",
+      "joão alborgheti",
+      "marques rosa",
+      "gerôncio albuquerque",
+      "luiz gava",
+      "dr hugo",
+      "bom dia",
+      "renato amary",
+      "albuquerque rocha",
+      "assuntos gerais",
+      "sendo aprovada",
+      "luiz roberto",
+      "vinicius lopes",
+      "leo urbano",
+      "nesse sentido",
+      "eduardo lovo",
+      "edy augusto",
+      "reis claudino",
+      "roberto moretti",
+      "luiz roberto",
+      "junji abe",
+      "barjas negri",
+      "gabriel ferrato",
+      "faria santos",
+      "garagnani rotary",
+      "maria wanda",
+      "adriana florentino",
+      "mauro dedemo",
+      "dedemo orlandini",
+      "josé mauro",
+      "paulo andré",
+      "rosa maria",
+      "maurício moromizato",
+      "délcio sato",
+      "luciano pincinato",
+      "josé carlos",
+      "carlos hóri",
+      "walter caveanha",
+      "informes gerais",
+      "félix aby"
+
+
+
+
+
+    )
+  )

@@ -208,11 +208,11 @@ municipalities (including the Sao Paulo Metropolitan Region) and more than 33,6 
 
 - Região de maior influência econômica.
 
-`r icon::fa("angle-right")` Mais de 170 municípios (abrangendo a Região Metropolitana de São Paulo)
+- Mais de 170 municípios (abrangendo a Região Metropolitana de São Paulo)
 
-`r icon::fa("angle-right")` Mais de 33 milhões de habitantes (em 2018) ([EMPLASA, 2019](https://emplasa.sp.gov.br/MMP))
+- Mais de 33 milhões de habitantes (em 2018) ([EMPLASA, 2019](https://emplasa.sp.gov.br/MMP))
 
-`r icon::fa("angle-right")` Maior aglomeração urbana do Brasil ([DAEE, 2013](http://www.daee.sp.gov.br/index.php?option=com_content&view=article&id=1112:plano-diretor-de-aproveitamento-dos-recursos-hidricos-para-a-macrometropole-paulista); [TAVARES, 2018](https://scielo.conicyt.cl/scielo.php?script=sci_arttext&pid=S0250-71612018000300115))
+- Maior aglomeração urbana do Brasil ([DAEE, 2013](http://www.daee.sp.gov.br/index.php?option=com_content&view=article&id=1112:plano-diretor-de-aproveitamento-dos-recursos-hidricos-para-a-macrometropole-paulista); [TAVARES, 2018](https://scielo.conicyt.cl/scielo.php?script=sci_arttext&pid=S0250-71612018000300115))
 
 
 
