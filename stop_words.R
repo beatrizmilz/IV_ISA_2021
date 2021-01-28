@@ -60,8 +60,25 @@ stopwords_br <- stopwords::stopwords(language = "pt") %>%
       "cep",
       "ordinária",
       "pauta",
-      "ad"
-
+      "ad",
+      "além",
+      "epitássio",
+      "fernando",
+      "iara",
+      "bueno",
+      "giacomini",
+      "bohn",
+      "adriana",
+      "cavalieri",
+      "apresentação",
+      "discussão",
+      "mail",
+      "ney",
+      "akemaru",
+      "ikeda",
+      "total",
+      "av",
+      "denominado"
     )
   )
 
@@ -117,7 +134,17 @@ stopwords_br_bigram <-
       "carlos hóri",
       "walter caveanha",
       "informes gerais",
-      "félix aby"
+      "félix aby",
+      "vitor lippi",
+      "fernando parodi",
+     "iara bueno",
+     "boa tarde",
+     "valor total",
+     "epitácio pessoa",
+     "adriana cavalieri",
+     "aby azar",
+     "ney akemaru",
+     "mesa diretora"
 
 
 

@@ -74,7 +74,7 @@ rm(tokens_bigram)
 source("stop_words.R", encoding = "UTF-8")
 
 
-bigrams_filtered <- bigrams_separated %>%
+bigrams_filtered_united <- bigrams_separated %>%
   dplyr::filter(!word1 %in% stopwords_br$word) %>%
   dplyr::filter(!word2 %in% stopwords_br$word) %>%
   dplyr::mutate(
@@ -82,11 +82,7 @@ bigrams_filtered <- bigrams_separated %>%
     
     word2 = stringr::str_replace_all(word2, pattern = "[0-9]+", replacement = NA_character_)
   ) %>%
-  tidyr::drop_na()
-
-
-
-bigrams_united <- bigrams_filtered %>%
+  tidyr::drop_na() %>%
   tidyr::unite(bigram, word1, word2, sep = " ") %>%
   dplyr::filter(!bigram %in% stopwords_br_bigram$word) %>%
   dplyr::mutate(
@@ -100,7 +96,7 @@ bigrams_united <- bigrams_filtered %>%
 
 
 # new bigram counts:
-bigram_counts <- bigrams_united %>%
+bigram_counts <- bigrams_filtered_united  %>%
   dplyr::group_by(crise, comite) %>%
   dplyr::count(bigram, sort = TRUE)
 
@@ -130,26 +126,29 @@ gerar_grafico_crise <- function(qual_crise){
   geom_col(aes(x = bigram, y = n)) +
   coord_flip() +
  # facet_grid(comite ~ crise) +
-  theme_bw() + 
-#  labs(y = "Quantidade de Ocorrências", x = "Bigram")  
-   theme(axis.title.x=element_blank())
+  theme_bw()
+
 }
  
 antes_crise <- gerar_grafico_crise("antes_crise") +
-   labs(x = "Bigram") 
+   labs(x = "Bigram", y = "") 
 
 durante_crise <- gerar_grafico_crise("durante_crise") +
-   labs(y = "Quantidade de Ocorrências") 
+   labs(y = "Number of \n occurrences", x = "") 
 
-pos_crise <- gerar_grafico_crise("pos_crise")
+pos_crise <- gerar_grafico_crise("pos_crise")+
+   labs(y = "", x = "") 
 
-(antes_crise + durante_crise + pos_crise)  
+(antes_crise + durante_crise + pos_crise)  + 
+  plot_annotation(title = comite_string,
+                  caption = "Data collected in Dec 08th 2020")
+  
 
 }
 
-gerar_grafico_comite("Alto Tietê")
-gerar_grafico_comite("Baixada Santista")
-gerar_grafico_comite("Piracicaba / Capivari / Jundiaí")
+gerar_grafico_comite("Alto Tietê") # ok sw
+gerar_grafico_comite("Baixada Santista")# ok sw
+gerar_grafico_comite("Piracicaba / Capivari / Jundiaí") # ok sw
 gerar_grafico_comite("Sorocaba e Médio Tietê")
 gerar_grafico_comite("Litoral Norte")
 gerar_grafico_comite("Mogi-Guaçu")
