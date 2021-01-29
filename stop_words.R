@@ -159,7 +159,9 @@ stopwords_br_bigram <-
      "mesa diretora",
      "paulo henrique",
      "jardim europa",
-     "europa sorocaba"
+     "europa sorocaba",
+     "andré cordeiro",
+     "assembléia extraordinária"
 
 
 

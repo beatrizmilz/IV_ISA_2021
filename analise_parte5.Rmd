@@ -123,7 +123,7 @@ gerar_grafico_crise <- function(qual_crise){
    dplyr::top_n(10) %>% 
   dplyr::mutate(bigram = reorder(bigram, n)) %>%
   ggplot() +
-  geom_col(aes(x = bigram, y = n)) +
+  geom_col(aes(x = bigram, y = n), fill = "lightblue") +
   coord_flip() +
  # facet_grid(comite ~ crise) +
   theme_bw()
@@ -131,18 +131,23 @@ gerar_grafico_crise <- function(qual_crise){
 }
  
 antes_crise <- gerar_grafico_crise("antes_crise") +
-   labs(x = "Bigram", y = "") 
+   labs(x = "Bigram", y = "", title = "2008-2021") 
 
 durante_crise <- gerar_grafico_crise("durante_crise") +
-   labs(y = "Number of \n occurrences", x = "") 
+   labs(y = "Number of occurrences", x = "", title = "2013-2015") 
 
 pos_crise <- gerar_grafico_crise("pos_crise")+
-   labs(y = "", x = "") 
+   labs(y = "", x = "", title = "2016-2020") 
 
-(antes_crise + durante_crise + pos_crise)  + 
-  plot_annotation(title = paste("WBC", comite_string),
+grafico_final <- (antes_crise + durante_crise + pos_crise)  + 
+  plot_annotation(title = paste("Water Basin Committee", comite_string),
                   caption = "Data collected in Dec 08th 2020")
-  
+
+comite_nome <- comite_string %>%  abjutils::rm_accent() %>% stringr::str_replace_all("/", "")%>%
+  stringr::str_replace_all(" ", "_")
+
+grafico_final %>% ggsave(filename = paste0(comite_nome, ".png"), 
+  path = "img/", device = "png", width = 12, height = 6)
 
 }
 
@@ -153,9 +158,6 @@ gerar_grafico_comite("Sorocaba e Médio Tietê")
 gerar_grafico_comite("Litoral Norte")
 gerar_grafico_comite("Mogi-Guaçu")
 gerar_grafico_comite("Ribeira do Iguape e Litoral Sul")
-
-unique(bigram_counts$comite)
-
 
 ```
 
