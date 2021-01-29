@@ -78,7 +78,19 @@ stopwords_br <- stopwords::stopwords(language = "pt") %>%
       "ikeda",
       "total",
       "av",
-      "denominado"
+      "denominado",
+      "sra",
+      "marta",
+      "ambiente.sp.gov.br",
+      "sp",
+      "henrique",
+      "pereira",
+      "exmo",
+      "prefeito",
+      "jorge",
+      "guaracy",
+      "dando",
+      "continuidade"
     )
   )
 
@@ -144,7 +156,10 @@ stopwords_br_bigram <-
      "adriana cavalieri",
      "aby azar",
      "ney akemaru",
-     "mesa diretora"
+     "mesa diretora",
+     "paulo henrique",
+     "jardim europa",
+     "europa sorocaba"
 
 
 

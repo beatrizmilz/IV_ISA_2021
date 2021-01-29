@@ -140,7 +140,7 @@ pos_crise <- gerar_grafico_crise("pos_crise")+
    labs(y = "", x = "") 
 
 (antes_crise + durante_crise + pos_crise)  + 
-  plot_annotation(title = comite_string,
+  plot_annotation(title = paste("WBC", comite_string),
                   caption = "Data collected in Dec 08th 2020")
   
 
