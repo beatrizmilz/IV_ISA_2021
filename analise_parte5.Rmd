@@ -147,13 +147,13 @@ comite_nome <- comite_string %>%  abjutils::rm_accent() %>% stringr::str_replace
   stringr::str_replace_all(" ", "_")
 
 grafico_final %>% ggsave(filename = paste0(comite_nome, ".png"), 
-  path = "img/", device = "png", width = 12, height = 6)
+  path = "slides/img_results/", device = "png", width = 12, height = 6)
 
 }
 
-gerar_grafico_comite("Alto Tietê") # ok sw
-gerar_grafico_comite("Baixada Santista")# ok sw
-gerar_grafico_comite("Piracicaba / Capivari / Jundiaí") # ok sw
+gerar_grafico_comite("Alto Tietê") 
+gerar_grafico_comite("Baixada Santista")
+gerar_grafico_comite("Piracicaba / Capivari / Jundiaí") 
 gerar_grafico_comite("Sorocaba e Médio Tietê")
 gerar_grafico_comite("Litoral Norte")
 gerar_grafico_comite("Mogi-Guaçu")
