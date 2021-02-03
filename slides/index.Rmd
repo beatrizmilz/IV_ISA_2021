@@ -135,7 +135,7 @@ knitr::include_graphics("img/isaconf.png")
 
 ##  FAPESP Grant numbers: 2018/23771-6 e 2015/03804-9
 
-## Presentation available in: [bit.ly/Macroamb](http://bit.ly/Macroamb)
+## Presentation available in: https://macroamb-isaconf2021.netlify.app/
 
 
 ### February 2021
