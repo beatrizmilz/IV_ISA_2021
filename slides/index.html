@@ -8,7 +8,7 @@
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
     <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xe3855a0efc34093afd9d06be6e929aa","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xb6a777e547f482b8ff173e6ce501722","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <script src="libs/js-cookie/js.cookie.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
@@ -418,7 +418,7 @@ class: hide_logo
 
 4) Downloaded all the files available for the plenums minutes.
 
-5) Fixed the dataset in order to have 1 file of minute per plenum. Examples: 
+5) Filtered the dataset in order to have 1 file of minute per plenum. Examples: 
 
   - There were plenums that had duplicate files for minutes. Removed the duplicates.
   
@@ -433,7 +433,7 @@ class: hide_logo
 
 ## Objetive 2:
 
-6) Read the files for the minutes in the resulted dataset (656 files), into a new dataset with a column with the content of the minute. 
+6) Read the files for the minutes in the resulted dataset (656 files), into a new dataset with a column with the content of the minute, and also an id for each plenum. 
  
   - Some word files had problems, and were converted to PDF outside R in order to be able to import the content.
 
@@ -533,14 +533,17 @@ Data collected in Dec 08th 2020
 ]
 
 ---
+class: hide_logo
 
 # Preliminary conclusions
 
-- 
-
 - Climate change was not in any of the visualizations of the most frequent bigrams
 
-- 
+- Data from the plemuns minutes need to be more complete:
+  - Data are not available for Paraíba do Sul
+  - There is no data for Sorocaba and Médio Tietê during the water crisis
+  
+- ...
 
 
 
@@ -571,7 +574,10 @@ R Core Team. 2019. R: A Language and Environment for Statistical Computing. Vien
 
 Sao Paulo State. 2020. “Portal SIGRH - Sistema Integrado de Gerenciamento de Recursos Hídricos Do Estado de São Paulo.” http://www.sigrh.sp.gov.br/.
 
-———. 1991. “Lei Nº 7.663, de 30 de Dezembro de 1991.” http://www.al.sp.gov.br/leis/legislacao-doestado/.
+&lt;!-- ———. 1991. “Lei Nº 7.663, de 30 de Dezembro de 1991.” http://www.al.sp.gov.br/leis/legislacao-doestado/. --&gt;
+
+
+Silge, Julia. Robinson, David.   Text Mining with R. 1. ed. O’Reilly, 2017.  https://www.tidytextmining.com/
 
 Tauberer, Joshua. 2014. Open Government Data: The Book. 2nd ed. https://opengovdata.io/2014/8-principles/.
 
