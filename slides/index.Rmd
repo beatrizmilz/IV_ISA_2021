@@ -675,15 +675,27 @@ class: hide_logo
 
 # Preliminary conclusions
 
-- Climate change was not in any of the visualizations of the most frequent bigrams
+```{r}
+tibble::tibble(objective = as.character(),
+               conclusions = as.character(),
+               next_steps = as.character()) %>%
+  tibble::add_row(
+    objective = "1) We aim to evaluate whether the plenum’s minutes of the Water Basin Committees that are part of the SPMM are made available publicly on the Portal SigRH - Integrated System of Water Resources Management of the State of Sao Paulo.",
+    conclusions = "Data from the plemuns minutes need to be more complete: There were ZERO plenums minutes available for Paraíba do Sul, and there is no plenums minutes available for Sorocaba and Médio Tietê during the water crisis."
+  ) %>%
+  tibble::add_row(objective = "2) Considering the plenum’s minutes encountered, we also aim to identify the most discussed subjects in plenary sessions using text mining methods.",
+                  conclusions = "Climate change was not in any of the visualizations of the most frequent bigrams; \n In order to clean and organize the dataset, we found several inconsistencies which are important to understand better the dataset considering concepts of open data.",
+                  next_steps = "Study the corpus with computer assisted qualitative data analysis software (CAQDAS) *[1]") %>% 
+  gt::gt() %>% 
+  gt::cols_label(
+    objective = "Objectives",
+    conclusions = "Preliminary conclusions",
+    next_steps = "Next steps and perspectives"
+  )
+```
 
-- Data from the plemuns minutes need to be more complete:
-  - Data are not available for Paraíba do Sul
-  - There is no data for Sorocaba and Médio Tietê during the water crisis
-  
-- ...
 
-
+.footnote[[1] Not in the scope of the ongoing research.]
 
 
 
