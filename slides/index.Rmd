@@ -433,7 +433,7 @@ class: hide_logo
 
 # Materials and Methods
 
-## Objetive 1:
+## Objective 1:
 
 1) __Data collection__: Web Scraping using package [`ComitesBaciaSP`](https://beatrizmilz.github.io/ComitesBaciaSP/) - December 8th 2020.
 
@@ -447,7 +447,7 @@ class: hide_logo
 
 # Materials and Methods
 
-## Objetive 2:
+## Objective 2:
 
 4) Downloaded all the files available for the plenums minutes.
 
@@ -464,7 +464,7 @@ class: hide_logo
 
 # Materials and Methods
 
-## Objetive 2:
+## Objective 2:
 
 6) Read the files for the minutes in the resulted dataset (656 files), into a new dataset with a column with the content of the minute, and also an id for each plenum. 
  
