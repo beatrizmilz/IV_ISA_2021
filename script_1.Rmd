@@ -5,6 +5,7 @@ date: "08/12/2020"
 output: html_document
 ---
 ## Preparing the dataset
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -31,6 +32,8 @@ siglas_mmp <- comites_mmp %>% dplyr::pull(sigla_comite)
 ```
 
 ## Download HTML pages (important to have a backup)
+
+
 ```{r}
 url_comites <- comites_mmp %>% 
   dplyr::mutate(url = glue::glue("http://www.sigrh.sp.gov.br/cbh{sigla_comite}/atas"))
