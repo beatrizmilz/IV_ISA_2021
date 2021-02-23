@@ -17,14 +17,8 @@ dataset_corpus_raw <- readr::read_rds("data/dataset_corpus_raw.Rds")
 head(dataset_corpus_raw)
 ```
 
-
 ```{r}
-united_clean_text <- dataset_corpus_raw %>%
-  dplyr::mutate(
-    texto = stringr::str_replace_all(text, "_", " "),
-    texto = stringr::str_squish(texto)
-    
-  ) %>%
+dataset_corpus_filtered <- dataset_corpus_raw %>%
   dplyr::mutate(ano = lubridate::year(data_reuniao)) %>%
   dplyr::mutate(
     crise = dplyr::case_when(
@@ -34,6 +28,23 @@ united_clean_text <- dataset_corpus_raw %>%
       TRUE ~ "outros"
       
     )
+  ) %>% 
+  dplyr::filter(crise != "outros")
+
+
+dataset_corpus_filtered  %>% readr::write_rds("data/dataset_corpus_filtered.Rds")
+
+
+```
+
+
+
+```{r}
+united_clean_text <- dataset_corpus_filtered %>%
+  dplyr::mutate(
+    texto = stringr::str_replace_all(text, "_", " "),
+    texto = stringr::str_squish(texto)
+    
   )
 
 head(united_clean_text)
@@ -47,7 +58,10 @@ head(small_dataset)
 # deletando arquivos intermediarios para nao ficar pesado
 rm(dataset_corpus_raw)
 rm(united_clean_text)
+rm(dataset_corpus_filtered)
 ```
+
+
 
 
 ## Bigrams

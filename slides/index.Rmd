@@ -132,12 +132,58 @@ knitr::include_graphics("img/isaconf.png")
 
 ### Beatriz Milz & Pedro Roberto Jacobi
 
-##  FAPESP Grant numbers: 2018/23771-6 e 2015/03804-9
+##  The São Paulo Research Foundation (FAPESP) grant numbers: <br> 2018/23771-6 and 2015/03804-9
+
+
 
 ## Presentation available in: https://macroamb-isaconf2021.netlify.app/
 
 
 ### February 2021
+
+
+---
+class: middle, center
+
+
+## Before we start...
+
+.pull-left[
+
+The presentation is open and online, with a lot of interesting links: 
+
+
+[
+```{r, out.width="100%", fig.align='center'}
+knitr::include_graphics("img/share-card.png")
+```
+<br> .center[Click here!]
+](https://macroamb-isaconf2021.netlify.app/)
+
+
+
+]
+
+.pull-right[
+
+The code is available on GitHub:
+<br><br><br><br>
+
+[
+```{r, out.width="100%", fig.align='center'}
+knitr::include_graphics("img/github.jpeg")
+```
+<br> <br> .center[Click here!]
+](https://github.com/beatrizmilz/IV_ISA_2021)
+
+]
+
+
+
+
+
+
+
 
 ---
 class: 
@@ -419,6 +465,7 @@ Website: http://www.sigrh.sp.gov.br/cbhpcj/atas
 
 ---
 class: hide_logo
+
 ### Website (HTML) -> Web Scraping -> Table 
 
 ```{r, out.width="100%"}
@@ -473,7 +520,7 @@ class: hide_logo
 
 8) Using text mining methods ([SILGE & ROBINSON, 2017](https://www.tidytextmining.com/)), constructed vizualizations of the frequency of bigrams in this 3 periods for each WBC.
 
- 
+
 ```{r}
 #dataset_corpus_raw <- readr::read_rds("../data/dataset_corpus_raw.Rds")
 
@@ -484,16 +531,55 @@ class: hide_logo
 
 
 ---
-class: hide_logo
+class: hide_logo, middle
+
 # Preliminary Results 
 
 
 - _Non-Discriminatory_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/): "Data are available to anyone, with no requirement of registration."
 
+---
+class: hide_logo
+
+# Preliminary Results 
+
 - _Complete_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/): "All public data are made available."
    - Paraíba do Sul: this WBC did not made any plenums minutes available (as in 08-12-2020).
    - Sorocaba e Médio Tietê: there are period gaps.
    - The marjority of the links to the plenums minutes available was working.
+   
+   
+```{r include=FALSE}
+dataset_corpus_filtered <- readr::read_rds("../data/dataset_corpus_filtered.Rds")
+```
+
+```{r echo=FALSE}
+ table <- dataset_corpus_filtered %>%
+  dplyr::group_by(comite, crise) %>% 
+  dplyr::summarise(n = n()) %>% 
+  tidyr::pivot_wider(names_from = crise, values_from = n) %>%
+  dplyr::ungroup() %>% 
+  tibble::add_row(comite = "Paraíba do Sul") %>% 
+  dplyr::arrange(comite) %>% 
+  dplyr::mutate_all(funs(tidyr::replace_na(.,0))) %>% 
+  dplyr::group_by(comite) %>% 
+    dplyr::mutate(total = sum(antes_crise, durante_crise, pos_crise)) %>% 
+  dplyr::ungroup()
+
+library(gt)
+table %>% 
+  gt::gt() %>% 
+  gt::cols_label(
+    comite = "Water Basin Committee",
+    antes_crise = "Before the Water Crisis \n (2008-2012)",
+    durante_crise = "During the Water Crisis \n (2013-2015)",
+     pos_crise = "After the Water Crisis \n (2016-2020)",
+   total = "N"
+  )
+```
+
+
+ 
 
 ---
 class: hide_logo, middle
