@@ -3,16 +3,15 @@
 
 # IV ISA Forum of Sociology
 
-  - Paper 117879: Transparency of Information on the Water Basin
+-   Paper 117879: Transparency of Information on the Water Basin
     Committees Plenums in the Sao Paulo Macrometropolis, Brazil
 
-  - Session Title: Environmental Security, Resilience and Sustainability
+-   Session Title: Environmental Security, Resilience and Sustainability
     of Cities in the Global South
 
-  - Authors: Beatriz Milz and Pedro Roberto Jacobi
+-   Authors: Beatriz Milz and Pedro Roberto Jacobi
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 ## Abstract
@@ -40,3 +39,36 @@ subjects in plenary sessions using text mining methods.
 
 Keywords: Text Mining, Water Crisis, Water Governance and Water Resource
 Management Units
+
+## Presentation
+
+-   Available in:
+    [macroamb-isaconf2021.netlify.app/](https://macroamb-isaconf2021.netlify.app/)
+
+[![](https://macroamb-isaconf2021.netlify.app/img/share-card.png)<!-- -->](https://macroamb-isaconf2021.netlify.app/)
+
+## Important files in the project
+
+-   Code scripts:
+    -   [`script_1.Rmd`](https://github.com/beatrizmilz/IV_ISA_2021/blob/master/script_1.Rmd) -
+        Initial steps to prepare the dataset with the plenums minutes,
+        util the download of all files.
+
+        -   [`script_2.Rmd`](https://github.com/beatrizmilz/IV_ISA_2021/blob/master/script_2.Rmd) -
+            Removing duplicates in the dataset.
+
+        -   [`script_3.Rmd`](https://github.com/beatrizmilz/IV_ISA_2021/blob/master/script_3.Rmd) -
+            Reading the filtered files into different datasets for each
+            filetype possible.
+
+        -   [`script_4.Rmd`](https://github.com/beatrizmilz/IV_ISA_2021/blob/master/script_4.Rmd) -
+            Reading the datasets created into a single dataset with the
+            plenums minutes as a column, and fixing some cases of error
+            of files while reading.
+
+        -   [`script_5.Rmd`](https://github.com/beatrizmilz/IV_ISA_2021/blob/master/script_5.Rmd) -
+            Exploring the corpus with text mining methods.
+
+            -   [`stop_words.R`](https://github.com/beatrizmilz/IV_ISA_2021/blob/master/stop_words.R) -
+                List of stop words - words and bigrams removed from the
+                analisys

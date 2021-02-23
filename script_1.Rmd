@@ -196,8 +196,6 @@ dataset_download <- dataset_formatado %>%
 readr::write_rds(dataset_download, file = glue::glue("data/dataset_df_minutes_download_{Sys.Date()}.Rds"))
 ```
 
-
-
 ### Download all the files in dataset_download
 
 ```{r eval=FALSE, include=TRUE}

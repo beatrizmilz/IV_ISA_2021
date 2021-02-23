@@ -15,7 +15,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-     # ratio: 191:100      
+      #ratio: 191:100      
 ---
 class: middle, center,  title-slide
 
@@ -102,7 +102,6 @@ meta() %>%
       "Macrometropolis, Brazil. ",
       "Presented by Beatriz Milz, ",
       "In the conference: IV ISA Forum of Sociology."
-      
     ),
     url = "https://macroamb-isaconf2021.netlify.app/",
     image = "https://macroamb-isaconf2021.netlify.app/img/share-card.png",

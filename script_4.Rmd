@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Create the text corpus"
 author: "bia"
 date: "15/01/2021"
 output: html_document
@@ -15,7 +15,6 @@ dataset_atas <- readr::read_rds("data/dataset_atas.Rds")
 loaded_files <-
   list.files("data/reading_downloaded_files/", full.names = TRUE) %>%
   purrr::map_dfr(readr::read_rds)
-
 
 
 united_loaded_files <- loaded_files %>%
@@ -42,10 +41,5 @@ united_loaded_files <- loaded_files %>%
 
 
 united_loaded_files %>% readr::write_rds("data/dataset_corpus_raw.Rds")
-
-
-
-
-
 
 ```

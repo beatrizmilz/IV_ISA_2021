@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Text mining methods"
 author: "bia"
 date: "15/01/2021"
 output: html_document
@@ -104,6 +104,9 @@ bigram_counts <- bigrams_filtered_united  %>%
 
 ```
 
+
+# Create visualizations of the data
+
 ```{r}
 #devtools::install_github("thomasp85/patchwork")
 library(patchwork)
@@ -131,7 +134,7 @@ gerar_grafico_crise <- function(qual_crise){
 }
  
 antes_crise <- gerar_grafico_crise("antes_crise") +
-   labs(x = "Bigram", y = "", title = "2008-2021") 
+   labs(x = "Bigram", y = "", title = "2008-2012") 
 
 durante_crise <- gerar_grafico_crise("durante_crise") +
    labs(y = "Number of occurrences", x = "", title = "2013-2015") 

@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
+# Read the dataset created in script_1.Rmd
 ```{r}
 library(magrittr)
 dataset_download <-
@@ -291,12 +292,6 @@ dataset_sem_duplicatas <- dataset_datas_alteradas %>%
 dataset_sem_duplicatas %>% 
   readr::write_rds(file = "data/dataset_atas.Rds")
 ```
-
-
-
-ideias:
-- ideias para analise: antes, durante, depois da crise hidrica.
-
 
 
 Atas que não serão usadas:
