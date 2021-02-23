@@ -3,20 +3,29 @@ title: "Create visualizations of the data"
 output: html_document
 ---
 
+## Load packages
+
 ```{r}
 library(magrittr, include.only = "%>%")
 
 library(ggplot2)
 
+#devtools::install_github("thomasp85/patchwork")
+library(patchwork)
+```
+
+
+## Load dataset of bigrams
+
+
+```{r}
 bigram_counts <- readr::read_rds("data/bigram_counts.Rds")
 
 head(bigram_counts)
 ```
 
+## Create function to generate graphs
 ```{r}
-#devtools::install_github("thomasp85/patchwork")
-library(patchwork)
-
 gerar_grafico_comite <- function(comite_string){
   
 bigrams <- bigram_counts %>%
@@ -60,6 +69,11 @@ grafico_final %>% ggsave(filename = paste0(comite_nome, ".png"),
 
 }
 
+```
+
+## Apply function and create graphs
+
+```{r}
 gerar_grafico_comite("Alto Tietê") 
 gerar_grafico_comite("Baixada Santista")
 gerar_grafico_comite("Piracicaba / Capivari / Jundiaí") 
@@ -67,6 +81,5 @@ gerar_grafico_comite("Sorocaba e Médio Tietê")
 gerar_grafico_comite("Litoral Norte")
 gerar_grafico_comite("Mogi-Guaçu")
 gerar_grafico_comite("Ribeira do Iguape e Litoral Sul")
-
 ```
 
