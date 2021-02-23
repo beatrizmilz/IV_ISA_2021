@@ -149,23 +149,19 @@ stopwords_br_bigram <-
       "félix aby",
       "vitor lippi",
       "fernando parodi",
-     "iara bueno",
-     "boa tarde",
-     "valor total",
-     "epitácio pessoa",
-     "adriana cavalieri",
-     "aby azar",
-     "ney akemaru",
-     "mesa diretora",
-     "paulo henrique",
-     "jardim europa",
-     "europa sorocaba",
-     "andré cordeiro",
-     "assembléia extraordinária"
-
-
-
-
+      "iara bueno",
+      "boa tarde",
+      "valor total",
+      "epitácio pessoa",
+      "adriana cavalieri",
+      "aby azar",
+      "ney akemaru",
+      "mesa diretora",
+      "paulo henrique",
+      "jardim europa",
+      "europa sorocaba",
+      "andré cordeiro",
+      "assembléia extraordinária"
 
     )
   )
