@@ -72,3 +72,6 @@ Management Units
             -   [`stop_words.R`](https://github.com/beatrizmilz/IV_ISA_2021/blob/master/stop_words.R) -
                 List of stop words - words and bigrams removed from the
                 analisys
+
+        -   [`script_6.Rmd`](https://github.com/beatrizmilz/IV_ISA_2021/blob/master/script_6.Rmd) -
+            Create visualizations with the bigrams.
