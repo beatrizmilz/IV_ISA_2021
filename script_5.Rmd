@@ -10,8 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-library(magrittr)
-library(ggplot2)
+library(magrittr, include.only = "%>%")
 
 dataset_corpus_raw <- readr::read_rds("data/dataset_corpus_raw.Rds")
 
@@ -104,63 +103,9 @@ bigram_counts <- bigrams_filtered_united  %>%
 
 ```
 
-
-# Create visualizations of the data
+# Export bigram counts
 
 ```{r}
-#devtools::install_github("thomasp85/patchwork")
-library(patchwork)
-
-gerar_grafico_comite <- function(comite_string){
-  
-bigrams <- bigram_counts %>%
-  dplyr::filter(
-    comite == {{comite_string}},
-                crise != "outros") %>%
-  dplyr::ungroup() 
-  
-
-gerar_grafico_crise <- function(qual_crise){
-  bigrams  %>% 
-  dplyr::filter(crise == {{qual_crise}}) %>%
-   dplyr::top_n(10) %>% 
-  dplyr::mutate(bigram = reorder(bigram, n)) %>%
-  ggplot() +
-  geom_col(aes(x = bigram, y = n), fill = "lightblue") +
-  coord_flip() +
- # facet_grid(comite ~ crise) +
-  theme_bw()
-
-}
- 
-antes_crise <- gerar_grafico_crise("antes_crise") +
-   labs(x = "Bigram", y = "", title = "2008-2012") 
-
-durante_crise <- gerar_grafico_crise("durante_crise") +
-   labs(y = "Number of occurrences", x = "", title = "2013-2015") 
-
-pos_crise <- gerar_grafico_crise("pos_crise")+
-   labs(y = "", x = "", title = "2016-2020") 
-
-grafico_final <- (antes_crise + durante_crise + pos_crise)  + 
-  plot_annotation(title = paste("Water Basin Committee", comite_string),
-                  caption = "Data collected in Dec 08th 2020")
-
-comite_nome <- comite_string %>%  abjutils::rm_accent() %>% stringr::str_replace_all("/", "")%>%
-  stringr::str_replace_all(" ", "_")
-
-grafico_final %>% ggsave(filename = paste0(comite_nome, ".png"), 
-  path = "slides/img_results/", device = "png", width = 12, height = 6)
-
-}
-
-gerar_grafico_comite("Alto Tietê") 
-gerar_grafico_comite("Baixada Santista")
-gerar_grafico_comite("Piracicaba / Capivari / Jundiaí") 
-gerar_grafico_comite("Sorocaba e Médio Tietê")
-gerar_grafico_comite("Litoral Norte")
-gerar_grafico_comite("Mogi-Guaçu")
-gerar_grafico_comite("Ribeira do Iguape e Litoral Sul")
-
+bigram_counts %>% readr::write_rds("data/bigram_counts.Rds")
 ```
 
