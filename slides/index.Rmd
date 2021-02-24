@@ -16,6 +16,7 @@ output:
       highlightLines: true
       countIncrementalSlides: false
       #ratio: 191:100      
+knitr: pagedown::chrome_print    
 ---
 class: middle, center,  title-slide
 
