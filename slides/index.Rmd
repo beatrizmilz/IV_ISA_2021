@@ -436,7 +436,9 @@ class: hide_logo
 knitr::include_graphics("img/rstudio-r.jpg")
 ```
 
-- <i class="fas fa-box-open"></i> Several R packages to perform the collection, cleaning, analysis, visualization and communication of the data:  `rvest`, `purrr`, `dplyr`, `tibble`, `stringr`, `magrittr`, `glue`, `ggplot2` , `tidyr`, `readr` (which are part of the `tidyverse`), `httr`, `sf`, `ggspatial`, `patchwork`, `tidytext`, `readtext`, `xml2`, `rvest`.
+- <i class="fas fa-box-open"></i> Several R packages to perform the collection, cleaning, analysis, visualization and communication of the data.
+
+  - <i class="fas fa-box-open"></i>  `rvest`, `purrr`, `dplyr`, `tibble`, `stringr`, `magrittr`, `glue`, `ggplot2` , `tidyr`, `readr` (which are part of the `tidyverse`), `httr`, `sf`, `ggspatial`, `patchwork`, `tidytext`, `readtext`, `xml2`, `rvest`.
 
 ---
 class: hide_logo
