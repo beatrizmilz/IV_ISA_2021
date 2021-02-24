@@ -8,7 +8,7 @@
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
     <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"cfec05c9f2c4487c9363c6cd80ce18f8","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"dbc8fca5393a4e12945c790ff6859af6","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <script src="libs/js-cookie/js.cookie.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
@@ -157,7 +157,7 @@ The code is available on GitHub:
 ]
 
 
-
+.center[**Work in progress!** ]
 
 
 
@@ -180,9 +180,7 @@ __Beatriz Milz__
 
 Doctorate Student in Environmental Sciences
 
-Institute of Energy and Environment
 
-University of São Paulo
 
 
 ]
@@ -198,20 +196,18 @@ __Pedro Roberto Jacobi__
 
 Senior Professor 
 
-Institute of Energy and Environment
 
-University of São Paulo
 ]
 
-
+.center[**Institute of Energy and Environment - University of São Paulo**]
 ---
 class: middle
 
 
 .bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
-Thematic Project from The São Paulo Research Foundation (FAPESP): 
+Thematic Project supported by The São Paulo Research Foundation (FAPESP): 
 
-__Environmental governance of macrometropolis paulista in face of climate variability__ (MacroAmb)
+__Environmental governance of the São Paulo Macrometropolis in face of climate variability__ (MacroAmb)
 
 .tr[
 Grant number:	15/03804-9 
@@ -384,16 +380,16 @@ Website: http://www.sigrh.sp.gov.br/
 ---
 class: inverse, middle
 
-# Objectives
+# Objective
 
 
 
-Considering the importance of the transparency of
-information on water resources management:
+&lt;!-- Considering the importance of the transparency of --&gt;
+&lt;!-- information on water resources management: --&gt;
 
-1) We aim to evaluate whether the plenum’s minutes of the Water Basin Committees that are part of the SPMM are made available publicly on the Portal SigRH - Integrated System of Water Resources Management of the State of Sao Paulo.
+We aim to evaluate whether the plenum’s minutes of the Water Basin Committees that are part of the SPMM are made available publicly on the Portal SigRH - Integrated System of Water Resources Management of the State of Sao Paulo.
 
-2) Considering the plenum’s minutes encountered, we also aim to identify the most discussed subjects in plenary sessions using text mining methods.
+&lt;!-- 2) Considering the plenum’s minutes encountered, we also aim to identify the most discussed subjects in plenary sessions using text mining methods. --&gt;
 
 
 ---
@@ -419,8 +415,7 @@ class: hide_logo
 
 - Functions are already available to scrape data from plenums minutes and list of participants in the WBC.
 
-
-
+&lt;img src="img/pacote-comite.png" width="90%" style="display: block; margin: auto;" /&gt;
 ---
 
 ### Website
@@ -443,7 +438,10 @@ class: hide_logo
 
 # Materials and Methods
 
-## Objective 1:
+.smaller[
+
+
+
 
 1) __Data collection__: Web Scraping using package [`ComitesBaciaSP`](https://beatrizmilz.github.io/ComitesBaciaSP/) - December 8th 2020.
 
@@ -452,16 +450,9 @@ class: hide_logo
 3) Every file in the dataset (total of 930) was tested in order to see if the file was available.
 
 
----
-class: hide_logo
-
-# Materials and Methods
-
-## Objective 2:
-
 4) Downloaded all the files available for the plenums minutes.
 
-5) Filtered the dataset in order to have 1 file of minute per plenum. Examples: 
+5) Filtered the dataset in order to have 1 file of minute per plenum. Examples:
 
   - There were plenums that had duplicate files for minutes. Removed the duplicates.
   
@@ -469,21 +460,14 @@ class: hide_logo
   
   - There were minutes available as images. 
 
----
-class: hide_logo
 
-# Materials and Methods
+6) Read the files for the minutes in the resulted dataset (656 files), into a new dataset with a column with the content of the minute, and also an id for each plenum. (Some word files had problems, and were converted to PDF outside R in order to be able to import the content)
 
-## Objective 2:
-
-6) Read the files for the minutes in the resulted dataset (656 files), into a new dataset with a column with the content of the minute, and also an id for each plenum. 
- 
-  - Some word files had problems, and were converted to PDF outside R in order to be able to import the content.
-
-7) Data was categorized: before (2008 - 2012), during  (2013 - 2015) and after the water crisis (2016 - 2020).
+7) Data was categorized: before (2008 - 2012), during (2013 - 2015) and after the water crisis (2016 - 2020).
 
 8) Using text mining methods ([SILGE &amp; ROBINSON, 2017](https://www.tidytextmining.com/)), constructed vizualizations of the frequency of bigrams in this 3 periods for each WBC.
 
+]
 
 
 
@@ -494,434 +478,21 @@ class: hide_logo, middle
 # Preliminary Results 
 
 
-- _Non-Discriminatory_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/): "Data are available to anyone, with no requirement of registration."
+- _Non-Discriminatory_ [(TAUBERER, 2014)*](https://opengovdata.io/2014/8-principles/): "Data are available to anyone, with no requirement of registration."
 
----
-class: hide_logo
+&lt;!-- &lt;span class="caption"&gt;* Principles of Open Government Data&lt;/span&gt; --&gt;
 
-# Preliminary Results 
-
-- _Complete_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/): "All public data are made available."
-   - Paraíba do Sul: this WBC did not made any plenums minutes available (as in 08-12-2020).
-   - Sorocaba e Médio Tietê: there are period gaps.
+- _Complete_ [(TAUBERER, 2014)*](https://opengovdata.io/2014/8-principles/): "All public data are made available."
    - The marjority of the links to the plenums minutes available was working.
-   
-   
+   - Paraíba do Sul: this WBC did not made any plenums minutes available.
+   - Sorocaba e Médio Tietê: there are period gaps.
 
 
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
-}
-
-#uijfrdhghw .gt_table {
-  display: table;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#uijfrdhghw .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#uijfrdhghw .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#uijfrdhghw .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 4px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#uijfrdhghw .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#uijfrdhghw .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#uijfrdhghw .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#uijfrdhghw .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#uijfrdhghw .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#uijfrdhghw .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#uijfrdhghw .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#uijfrdhghw .gt_group_heading {
-  padding: 8px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#uijfrdhghw .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#uijfrdhghw .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#uijfrdhghw .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#uijfrdhghw .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#uijfrdhghw .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 12px;
-}
-
-#uijfrdhghw .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#uijfrdhghw .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-}
-
-#uijfrdhghw .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#uijfrdhghw .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#uijfrdhghw .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#uijfrdhghw .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#uijfrdhghw .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#uijfrdhghw .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding: 4px;
-}
-
-#uijfrdhghw .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#uijfrdhghw .gt_sourcenote {
-  font-size: 90%;
-  padding: 4px;
-}
-
-#uijfrdhghw .gt_left {
-  text-align: left;
-}
-
-#uijfrdhghw .gt_center {
-  text-align: center;
-}
-
-#uijfrdhghw .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#uijfrdhghw .gt_font_normal {
-  font-weight: normal;
-}
-
-#uijfrdhghw .gt_font_bold {
-  font-weight: bold;
-}
-
-#uijfrdhghw .gt_font_italic {
-  font-style: italic;
-}
-
-#uijfrdhghw .gt_super {
-  font-size: 65%;
-}
-
-#uijfrdhghw .gt_footnote_marks {
-  font-style: italic;
-  font-size: 65%;
-}
-</style>
-<div id="uijfrdhghw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Water Basin Committee</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Before the Water Crisis 
- (2008-2012)</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">During the Water Crisis 
- (2013-2015)</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">After the Water Crisis 
- (2016-2020)</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">N</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_left">Alto Tietê</td>
-      <td class="gt_row gt_right">16</td>
-      <td class="gt_row gt_right">21</td>
-      <td class="gt_row gt_right">27</td>
-      <td class="gt_row gt_right">64</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Baixada Santista</td>
-      <td class="gt_row gt_right">27</td>
-      <td class="gt_row gt_right">11</td>
-      <td class="gt_row gt_right">26</td>
-      <td class="gt_row gt_right">64</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Litoral Norte</td>
-      <td class="gt_row gt_right">9</td>
-      <td class="gt_row gt_right">5</td>
-      <td class="gt_row gt_right">13</td>
-      <td class="gt_row gt_right">27</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Mogi-Guaçu</td>
-      <td class="gt_row gt_right">9</td>
-      <td class="gt_row gt_right">6</td>
-      <td class="gt_row gt_right">10</td>
-      <td class="gt_row gt_right">25</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Paraíba do Sul</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Piracicaba / Capivari / Jundiaí</td>
-      <td class="gt_row gt_right">21</td>
-      <td class="gt_row gt_right">10</td>
-      <td class="gt_row gt_right">14</td>
-      <td class="gt_row gt_right">45</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Ribeira do Iguape e Litoral Sul</td>
-      <td class="gt_row gt_right">26</td>
-      <td class="gt_row gt_right">9</td>
-      <td class="gt_row gt_right">16</td>
-      <td class="gt_row gt_right">51</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Sorocaba e Médio Tietê</td>
-      <td class="gt_row gt_right">14</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">6</td>
-      <td class="gt_row gt_right">20</td>
-    </tr>
-  </tbody>
-  
-  
-</table></div>
 
 
+
+
+&lt;span class="caption"&gt;* Principles of Open Government Data&lt;/span&gt;
  
 
 ---
@@ -1002,384 +573,24 @@ Data collected in Dec 08th 2020
 ---
 class: hide_logo
 
-# Preliminary conclusions
+## Preliminary conclusions
 
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
-}
+- Data from the plemuns minutes need to be more complete.
 
-#tgovkreblr .gt_table {
-  display: table;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
+- In order to clean and organize the dataset, we found several inconsistencies which are important to understand better the dataset considering concepts of open data.
 
-#tgovkreblr .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
+## Next steps
 
-#tgovkreblr .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
+- Continue to develop and improve the package [ComitesBaciaSP](https://beatrizmilz.github.io/ComitesBaciaSP/).
 
-#tgovkreblr .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 4px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
+- Expand the analysis to contemplate more [Principles of Open Government Data](https://opengovdata.io/2014/8-principles/).
 
-#tgovkreblr .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#tgovkreblr .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#tgovkreblr .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#tgovkreblr .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#tgovkreblr .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#tgovkreblr .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#tgovkreblr .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#tgovkreblr .gt_group_heading {
-  padding: 8px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#tgovkreblr .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#tgovkreblr .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#tgovkreblr .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#tgovkreblr .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#tgovkreblr .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 12px;
-}
-
-#tgovkreblr .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#tgovkreblr .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-}
-
-#tgovkreblr .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#tgovkreblr .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#tgovkreblr .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#tgovkreblr .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#tgovkreblr .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#tgovkreblr .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding: 4px;
-}
-
-#tgovkreblr .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#tgovkreblr .gt_sourcenote {
-  font-size: 90%;
-  padding: 4px;
-}
-
-#tgovkreblr .gt_left {
-  text-align: left;
-}
-
-#tgovkreblr .gt_center {
-  text-align: center;
-}
-
-#tgovkreblr .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#tgovkreblr .gt_font_normal {
-  font-weight: normal;
-}
-
-#tgovkreblr .gt_font_bold {
-  font-weight: bold;
-}
-
-#tgovkreblr .gt_font_italic {
-  font-style: italic;
-}
-
-#tgovkreblr .gt_super {
-  font-size: 65%;
-}
-
-#tgovkreblr .gt_footnote_marks {
-  font-style: italic;
-  font-size: 65%;
-}
-</style>
-<div id="tgovkreblr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
-  
-  <thead class="gt_col_headings">
-    <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Objectives</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Preliminary conclusions</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Next steps and perspectives</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_left">1) We aim to evaluate whether the plenum’s minutes of the Water Basin Committees that are part of the SPMM are made available publicly on the Portal SigRH - Integrated System of Water Resources Management of the State of Sao Paulo.</td>
-      <td class="gt_row gt_left">Data from the plemuns minutes need to be more complete: There were ZERO plenums minutes available for Paraíba do Sul, and there is no plenums minutes available for Sorocaba and Médio Tietê during the water crisis.</td>
-      <td class="gt_row gt_left">NA</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">2) Considering the plenum’s minutes encountered, we also aim to identify the most discussed subjects in plenary sessions using text mining methods.</td>
-      <td class="gt_row gt_left">Climate change was not in any of the visualizations of the most frequent bigrams; 
- In order to clean and organize the dataset, we found several inconsistencies which are important to understand better the dataset considering concepts of open data.</td>
-      <td class="gt_row gt_left">Study the corpus with computer assisted qualitative data analysis software (CAQDAS) *[1]</td>
-    </tr>
-  </tbody>
-  
-  
-</table></div>
-
-
-.footnote[[1] Not in the scope of the ongoing research.]
+- Study the corpus with qualitative data analysis. (1)
 
 
 
----
-class: hide_logo
-# Acknowledgments
 
-This research is contemplated by the FAPESP postgraduate scholarship nº 2018/23771-6, and FAPESP Thematic Project  nº 2015/03804-9. 
-
-
-
-We also thank for the help:  [Amauri Polacchi](http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K8273692Y0), [Angélica Custódio](https://www.linkedin.com/in/angelicacustodio/?originalSubdomain=br), [Athos Damiani](https://github.com/Athospd), [Bruna Wundervald](https://brunaw.com/), [Caio Lente](https://lente.dev/), [Daniel Falbel](http://dfalbel.github.io/), [Igor Matheus Santana Chaves](https://orcid.org/0000-0003-3833-9301), [José de Jesus Filho](https://github.com/jjesusfilho),  [Lidiane Alonso Paixão dos Anjos](https://orcid.org/0000-0001-8054-0987), [Julio Trecenti](https://github.com/jtrecenti).
+&lt;span class="caption"&gt;* (1) Not in the scope of the ongoing research.&lt;/span&gt;
 
 ---
 class: bib
@@ -1406,26 +617,27 @@ Tauberer, Joshua. 2014. Open Government Data: The Book. 2nd ed. https://opengovd
 Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the tidyverse.” Journal of Open Source Software 4 (43): 1686. https://doi.org/10.21105/joss.01686.
 
 
+
+
 ---
-class: center, middle
+class: hide_logo, center, middle
+
+## Acknowledgments
+
+This research is contemplated by the FAPESP postgraduate scholarship nº 2018/23771-6, and FAPESP Thematic Project  nº 2015/03804-9. 
+
+
+
+We also thank for the help:  [Amauri Polacchi](http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K8273692Y0), [Angélica Custódio](https://www.linkedin.com/in/angelicacustodio/?originalSubdomain=br), [Athos Damiani](https://github.com/Athospd), [Bruna Wundervald](https://brunaw.com/), [Caio Lente](https://lente.dev/), [Daniel Falbel](http://dfalbel.github.io/), [Igor Matheus Santana Chaves](https://orcid.org/0000-0003-3833-9301), [José de Jesus Filho](https://github.com/jjesusfilho),  [Lidiane Alonso Paixão dos Anjos](https://orcid.org/0000-0001-8054-0987), [Julio Trecenti](https://github.com/jtrecenti).
+
 
 ## Thank you!
 
 
-
-&lt;center&gt;
-
-Find us at: &lt;BR&gt;&lt;br&gt;&lt;/center&gt;
+Beatriz Milz: &lt;a href='mailto:beatriz.milz@usp.br'&gt;&lt;i class="far fa-envelope"&gt;&lt;/i&gt; beatriz.milz@usp.br&lt;/a&gt; / &lt;a href='https://twitter.com/BeaMilz'&gt;&lt;i class="fab fa-twitter"&gt;&lt;/i&gt; @BeaMilz&lt;/a&gt; / &lt;a href='https://github.com/beatrizmilz'&gt;&lt;i class="fab fa-github"&gt;&lt;/i&gt; beatrizmilz&lt;/a&gt; 
 
 
-- Beatriz Milz:
-
-  &lt;a href='mailto:beatriz.milz@usp.br'&gt;&lt;i class="far fa-envelope"&gt;&lt;/i&gt; beatriz.milz@usp.br&lt;/a&gt; / &lt;a href='https://twitter.com/BeaMilz'&gt;&lt;i class="fab fa-twitter"&gt;&lt;/i&gt; @BeaMilz&lt;/a&gt; / &lt;a href='https://github.com/beatrizmilz'&gt;&lt;i class="fab fa-github"&gt;&lt;/i&gt; beatrizmilz&lt;/a&gt; 
-
-
-- Pedro Jacobi:
-
-  &lt;a href='mailto:prjacobi@gmail.com'&gt;&lt;i class="far fa-envelope"&gt;&lt;/i&gt; prjacobi@gmail.com&lt;/a&gt; &lt;br&gt;&lt;br&gt;
+Pedro Jacobi: &lt;a href='mailto:prjacobi@gmail.com'&gt;&lt;i class="far fa-envelope"&gt;&lt;/i&gt; prjacobi@gmail.com&lt;/a&gt; &lt;br&gt;&lt;br&gt;
 
 
 Presentation made with &lt;a href='https://www.r-project.org/'&gt;&lt;i class="fab fa-r-project"&gt;&lt;/i&gt;&lt;/a&gt; and the packages &lt;i class="fas fa-box-open"&gt;&lt;/i&gt; [**xaringan**](https://github.com/yihui/xaringan) and &lt;i class="fas fa-box-open"&gt;&lt;/i&gt; [**xaringanthemer**](https://pkg.garrickadenbuie.com/xaringanthemer/).

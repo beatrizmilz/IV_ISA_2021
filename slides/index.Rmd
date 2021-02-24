@@ -179,7 +179,7 @@ knitr::include_graphics("img/github.jpeg")
 ]
 
 
-
+.center[**Work in progress!** ]
 
 
 
@@ -204,9 +204,7 @@ __Beatriz Milz__
 
 Doctorate Student in Environmental Sciences
 
-Institute of Energy and Environment
 
-University of São Paulo
 
 
 ]
@@ -224,20 +222,18 @@ __Pedro Roberto Jacobi__
 
 Senior Professor 
 
-Institute of Energy and Environment
 
-University of São Paulo
 ]
 
-
+.center[**Institute of Energy and Environment - University of São Paulo**]
 ---
 class: middle
 
 
 .bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
-Thematic Project from The São Paulo Research Foundation (FAPESP): 
+Thematic Project supported by The São Paulo Research Foundation (FAPESP): 
 
-__Environmental governance of macrometropolis paulista in face of climate variability__ (MacroAmb)
+__Environmental governance of the São Paulo Macrometropolis in face of climate variability__ (MacroAmb)
 
 .tr[
 Grant number:	15/03804-9 
@@ -414,16 +410,16 @@ Website: http://www.sigrh.sp.gov.br/
 ---
 class: inverse, middle
 
-# Objectives
+# Objective
 
 
 
-Considering the importance of the transparency of
-information on water resources management:
+<!-- Considering the importance of the transparency of -->
+<!-- information on water resources management: -->
 
-1) We aim to evaluate whether the plenum’s minutes of the Water Basin Committees that are part of the SPMM are made available publicly on the Portal SigRH - Integrated System of Water Resources Management of the State of Sao Paulo.
+We aim to evaluate whether the plenum’s minutes of the Water Basin Committees that are part of the SPMM are made available publicly on the Portal SigRH - Integrated System of Water Resources Management of the State of Sao Paulo.
 
-2) Considering the plenum’s minutes encountered, we also aim to identify the most discussed subjects in plenary sessions using text mining methods.
+<!-- 2) Considering the plenum’s minutes encountered, we also aim to identify the most discussed subjects in plenary sessions using text mining methods. -->
 
 
 ---
@@ -451,8 +447,9 @@ class: hide_logo
 
 - Functions are already available to scrape data from plenums minutes and list of participants in the WBC.
 
-
-
+```{r, out.width="90%"}
+knitr::include_graphics("img/pacote-comite.png")
+```
 ---
 
 ### Website
@@ -479,7 +476,10 @@ class: hide_logo
 
 # Materials and Methods
 
-## Objective 1:
+.smaller[
+
+
+
 
 1) __Data collection__: Web Scraping using package [`ComitesBaciaSP`](https://beatrizmilz.github.io/ComitesBaciaSP/) - December 8th 2020.
 
@@ -488,16 +488,9 @@ class: hide_logo
 3) Every file in the dataset (total of 930) was tested in order to see if the file was available.
 
 
----
-class: hide_logo
-
-# Materials and Methods
-
-## Objective 2:
-
 4) Downloaded all the files available for the plenums minutes.
 
-5) Filtered the dataset in order to have 1 file of minute per plenum. Examples: 
+5) Filtered the dataset in order to have 1 file of minute per plenum. Examples:
 
   - There were plenums that had duplicate files for minutes. Removed the duplicates.
   
@@ -505,22 +498,14 @@ class: hide_logo
   
   - There were minutes available as images. 
 
----
-class: hide_logo
 
-# Materials and Methods
+6) Read the files for the minutes in the resulted dataset (656 files), into a new dataset with a column with the content of the minute, and also an id for each plenum. (Some word files had problems, and were converted to PDF outside R in order to be able to import the content)
 
-## Objective 2:
-
-6) Read the files for the minutes in the resulted dataset (656 files), into a new dataset with a column with the content of the minute, and also an id for each plenum. 
- 
-  - Some word files had problems, and were converted to PDF outside R in order to be able to import the content.
-
-7) Data was categorized: before (2008 - 2012), during  (2013 - 2015) and after the water crisis (2016 - 2020).
+7) Data was categorized: before (2008 - 2012), during (2013 - 2015) and after the water crisis (2016 - 2020).
 
 8) Using text mining methods ([SILGE & ROBINSON, 2017](https://www.tidytextmining.com/)), constructed vizualizations of the frequency of bigrams in this 3 periods for each WBC.
 
-
+]
 ```{r}
 #dataset_corpus_raw <- readr::read_rds("../data/dataset_corpus_raw.Rds")
 
@@ -530,55 +515,53 @@ class: hide_logo
 ```
 
 
+
 ---
 class: hide_logo, middle
 
 # Preliminary Results 
 
 
-- _Non-Discriminatory_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/): "Data are available to anyone, with no requirement of registration."
+- _Non-Discriminatory_ [(TAUBERER, 2014)*](https://opengovdata.io/2014/8-principles/): "Data are available to anyone, with no requirement of registration."
 
----
-class: hide_logo
+<!-- <span class="caption">* Principles of Open Government Data</span> -->
 
-# Preliminary Results 
-
-- _Complete_ [(TAUBERER, 2014)](https://opengovdata.io/2014/8-principles/): "All public data are made available."
-   - Paraíba do Sul: this WBC did not made any plenums minutes available (as in 08-12-2020).
-   - Sorocaba e Médio Tietê: there are period gaps.
+- _Complete_ [(TAUBERER, 2014)*](https://opengovdata.io/2014/8-principles/): "All public data are made available."
    - The marjority of the links to the plenums minutes available was working.
-   
-   
+   - Paraíba do Sul: this WBC did not made any plenums minutes available.
+   - Sorocaba e Médio Tietê: there are period gaps.
+
+
 ```{r include=FALSE}
-dataset_corpus_filtered <- readr::read_rds("../data/dataset_corpus_filtered.Rds")
+# dataset_corpus_filtered <- readr::read_rds("../data/dataset_corpus_filtered.Rds")
 ```
 
 ```{r echo=FALSE}
- table <- dataset_corpus_filtered %>%
-  dplyr::group_by(comite, crise) %>% 
-  dplyr::summarise(n = n()) %>% 
-  tidyr::pivot_wider(names_from = crise, values_from = n) %>%
-  dplyr::ungroup() %>% 
-  tibble::add_row(comite = "Paraíba do Sul") %>% 
-  dplyr::arrange(comite) %>% 
-  dplyr::mutate_all(funs(tidyr::replace_na(.,0))) %>% 
-  dplyr::group_by(comite) %>% 
-    dplyr::mutate(total = sum(antes_crise, durante_crise, pos_crise)) %>% 
-  dplyr::ungroup()
-
-library(gt)
-table %>% 
-  gt::gt() %>% 
-  gt::cols_label(
-    comite = "Water Basin Committee",
-    antes_crise = "Before the Water Crisis \n (2008-2012)",
-    durante_crise = "During the Water Crisis \n (2013-2015)",
-     pos_crise = "After the Water Crisis \n (2016-2020)",
-   total = "N"
-  )
+#  table <- dataset_corpus_filtered %>%
+#   dplyr::group_by(comite, crise) %>% 
+#   dplyr::summarise(n = n()) %>% 
+#   tidyr::pivot_wider(names_from = crise, values_from = n) %>%
+#   dplyr::ungroup() %>% 
+#   tibble::add_row(comite = "Paraíba do Sul") %>% 
+#   dplyr::arrange(comite) %>% 
+#   dplyr::mutate_all(funs(tidyr::replace_na(.,0))) %>% 
+#   dplyr::group_by(comite) %>% 
+#     dplyr::mutate(total = sum(antes_crise, durante_crise, pos_crise)) %>% 
+#   dplyr::ungroup()
+# 
+# library(gt)
+# table %>% 
+#   gt::gt() %>% 
+#   gt::cols_label(
+#     comite = "Water Basin Committee",
+#     antes_crise = "Before the Water Crisis \n (2008-2012)",
+#     durante_crise = "During the Water Crisis \n (2013-2015)",
+#      pos_crise = "After the Water Crisis \n (2016-2020)",
+#    total = "N"
+#   )
 ```
 
-
+<span class="caption">* Principles of Open Government Data</span>
  
 
 ---
@@ -673,41 +656,43 @@ knitr::include_graphics("img_results/Sorocaba_e_Medio_Tiete.png")
 ---
 class: hide_logo
 
-# Preliminary conclusions
+## Preliminary conclusions
+
+- Data from the plemuns minutes need to be more complete.
+
+- In order to clean and organize the dataset, we found several inconsistencies which are important to understand better the dataset considering concepts of open data.
+
+## Next steps
+
+- Continue to develop and improve the package [ComitesBaciaSP](https://beatrizmilz.github.io/ComitesBaciaSP/).
+
+- Expand the analysis to contemplate more [Principles of Open Government Data](https://opengovdata.io/2014/8-principles/).
+
+- Study the corpus with qualitative data analysis. (1)
 
 ```{r}
-tibble::tibble(objective = as.character(),
-               conclusions = as.character(),
-               next_steps = as.character()) %>%
-  tibble::add_row(
-    objective = "1) We aim to evaluate whether the plenum’s minutes of the Water Basin Committees that are part of the SPMM are made available publicly on the Portal SigRH - Integrated System of Water Resources Management of the State of Sao Paulo.",
-    conclusions = "Data from the plemuns minutes need to be more complete: There were ZERO plenums minutes available for Paraíba do Sul, and there is no plenums minutes available for Sorocaba and Médio Tietê during the water crisis."
-  ) %>%
-  tibble::add_row(objective = "2) Considering the plenum’s minutes encountered, we also aim to identify the most discussed subjects in plenary sessions using text mining methods.",
-                  conclusions = "Climate change was not in any of the visualizations of the most frequent bigrams; \n In order to clean and organize the dataset, we found several inconsistencies which are important to understand better the dataset considering concepts of open data.",
-                  next_steps = "Study the corpus with computer assisted qualitative data analysis software (CAQDAS) *[1]") %>% 
-  gt::gt() %>% 
-  gt::cols_label(
-    objective = "Objectives",
-    conclusions = "Preliminary conclusions",
-    next_steps = "Next steps and perspectives"
-  )
+# tibble::tibble(objective = as.character(),
+#                conclusions = as.character(),
+#                next_steps = as.character()) %>%
+#   tibble::add_row(
+#     objective = "1) We aim to evaluate whether the plenum’s minutes of the Water Basin Committees that are part of the SPMM are made available publicly on the Portal SigRH - Integrated System of Water Resources Management of the State of Sao Paulo.",
+#     conclusions = "Data from the plemuns minutes need to be more complete.",
+#     next_steps = "Continue to develop and improve the package [ComitesBaciaSP](https://beatrizmilz.github.io/ComitesBaciaSP/); expand the analysis to contemplate more [Principles of Open Government Data](https://opengovdata.io/2014/8-principles/)"
+#   ) %>%
+#   tibble::add_row(objective = "2) Considering the plenum’s minutes encountered, we also aim to identify the most discussed subjects in plenary sessions using text mining methods.",
+#                   conclusions = "Climate change was not in any of the visualizations of the most frequent bigrams; \n In order to clean and organize the dataset, we found several inconsistencies which are important to understand better the dataset considering concepts of open data.",
+#                   next_steps = "Study the corpus with qualitative data analysis *[1]") %>% 
+#   dplyr::select(-objective) %>% 
+#   gt::gt() %>% 
+#   gt::cols_label(
+#   #  objective = "Objectives",
+#     conclusions = "Preliminary conclusions",
+#     next_steps = "Next steps and perspectives"
+#   )
 ```
 
 
-.footnote[[1] Not in the scope of the ongoing research.]
-
-
-
----
-class: hide_logo
-# Acknowledgments
-
-This research is contemplated by the FAPESP postgraduate scholarship nº 2018/23771-6, and FAPESP Thematic Project  nº 2015/03804-9. 
-
-
-
-We also thank for the help:  [Amauri Polacchi](http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K8273692Y0), [Angélica Custódio](https://www.linkedin.com/in/angelicacustodio/?originalSubdomain=br), [Athos Damiani](https://github.com/Athospd), [Bruna Wundervald](https://brunaw.com/), [Caio Lente](https://lente.dev/), [Daniel Falbel](http://dfalbel.github.io/), [Igor Matheus Santana Chaves](https://orcid.org/0000-0003-3833-9301), [José de Jesus Filho](https://github.com/jjesusfilho),  [Lidiane Alonso Paixão dos Anjos](https://orcid.org/0000-0001-8054-0987), [Julio Trecenti](https://github.com/jtrecenti).
+<span class="caption">* (1) Not in the scope of the ongoing research.</span>
 
 ---
 class: bib
@@ -734,26 +719,27 @@ Tauberer, Joshua. 2014. Open Government Data: The Book. 2nd ed. https://opengovd
 Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the tidyverse.” Journal of Open Source Software 4 (43): 1686. https://doi.org/10.21105/joss.01686.
 
 
+
+
 ---
-class: center, middle
+class: hide_logo, center, middle
+
+## Acknowledgments
+
+This research is contemplated by the FAPESP postgraduate scholarship nº 2018/23771-6, and FAPESP Thematic Project  nº 2015/03804-9. 
+
+
+
+We also thank for the help:  [Amauri Polacchi](http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K8273692Y0), [Angélica Custódio](https://www.linkedin.com/in/angelicacustodio/?originalSubdomain=br), [Athos Damiani](https://github.com/Athospd), [Bruna Wundervald](https://brunaw.com/), [Caio Lente](https://lente.dev/), [Daniel Falbel](http://dfalbel.github.io/), [Igor Matheus Santana Chaves](https://orcid.org/0000-0003-3833-9301), [José de Jesus Filho](https://github.com/jjesusfilho),  [Lidiane Alonso Paixão dos Anjos](https://orcid.org/0000-0001-8054-0987), [Julio Trecenti](https://github.com/jtrecenti).
+
 
 ## Thank you!
 
 
-
-<center>
-
-Find us at: <BR><br></center>
+Beatriz Milz: <a href='mailto:beatriz.milz@usp.br'><i class="far fa-envelope"></i> beatriz.milz@usp.br</a> / <a href='https://twitter.com/BeaMilz'><i class="fab fa-twitter"></i> @BeaMilz</a> / <a href='https://github.com/beatrizmilz'><i class="fab fa-github"></i> beatrizmilz</a> 
 
 
-- Beatriz Milz:
-
-  <a href='mailto:beatriz.milz@usp.br'><i class="far fa-envelope"></i> beatriz.milz@usp.br</a> / <a href='https://twitter.com/BeaMilz'><i class="fab fa-twitter"></i> @BeaMilz</a> / <a href='https://github.com/beatrizmilz'><i class="fab fa-github"></i> beatrizmilz</a> 
-
-
-- Pedro Jacobi:
-
-  <a href='mailto:prjacobi@gmail.com'><i class="far fa-envelope"></i> prjacobi@gmail.com</a> <br><br>
+Pedro Jacobi: <a href='mailto:prjacobi@gmail.com'><i class="far fa-envelope"></i> prjacobi@gmail.com</a> <br><br>
 
 
 Presentation made with <a href='https://www.r-project.org/'><i class="fab fa-r-project"></i></a> and the packages <i class="fas fa-box-open"></i> [**xaringan**](https://github.com/yihui/xaringan) and <i class="fas fa-box-open"></i> [**xaringanthemer**](https://pkg.garrickadenbuie.com/xaringanthemer/).
